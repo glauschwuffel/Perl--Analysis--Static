@@ -21,7 +21,6 @@ lib/PSA/Filter/NameLike.pm
 lib/PSA/Filter/Range.pm
 lib/PSA/Filter/String.pm
 lib/PSA/Filter/StringLike.pm
-lib/PSA/Log.pm
 lib/PSA/Question.pm
 lib/PSA/Question/Lexical/Name.pm
 lib/PSA/Question/Lexical/NameLike.pm
@@ -33,6 +32,7 @@ Makefile.PL
 MANIFEST			This list of files
 META.json			Module JSON meta-data (added by MakeMaker)
 META.yml			Module YAML meta-data (added by MakeMaker)
+README
 remake.sh
 scripts/perlanalyst
 t/blocks.t
