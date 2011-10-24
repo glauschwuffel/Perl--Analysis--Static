@@ -7,20 +7,20 @@ use Test::More 'no_plan';
 use Test::Deep;
 
 BEGIN {
-    use_ok('PSA::Document');
-    use_ok('PSA::Element::Use');
-    use_ok('PSA::Analysis::Use');
+    use_ok('Perl::Analysis::Static::Document');
+    use_ok('Perl::Analysis::Static::Element::Use');
+    use_ok('Perl::Analysis::Static::Analysis::Use');
 }
 
 my $filename='t/data/uses.pl';
-my $document = PSA::Document->new(filename => $filename);
+my $document = Perl::Analysis::Static::Document->new(filename => $filename);
 
 my $expected = [
-    PSA::Element::Use->new( name => 'A' ),
-    PSA::Element::Use->new( name => 'B' ),
+    Perl::Analysis::Static::Element::Use->new( name => 'A' ),
+    Perl::Analysis::Static::Element::Use->new( name => 'B' ),
 ];
 
-my $analysis=PSA::Analysis::Use->new();
+my $analysis=Perl::Analysis::Static::Analysis::Use->new();
 my $got = $analysis->analyse($document);
 
 is_deeply( $got, $expected );

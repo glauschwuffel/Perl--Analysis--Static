@@ -7,11 +7,11 @@ use Test::More 'no_plan';
 use Test::Deep;
 
 BEGIN {
-    use_ok('PSA::Files');
+    use_ok('Perl::Analysis::Static::Files');
 }
 
 my $dir='t/';
-my @got = PSA::Files::files($dir);
+my @got = Perl::Analysis::Static::Files::files($dir);
 
 my @expected = qw(t/blocks.t
 t/data/lexicals_and_blocks.pl

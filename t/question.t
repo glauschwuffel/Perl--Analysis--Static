@@ -7,15 +7,15 @@ use Test::More 'no_plan';
 use Test::Deep;
 
 BEGIN {
-	use_ok('PSA::Element::Sub');
-	use_ok('PSA::Question');
+	use_ok('Perl::Analysis::Static::Element::Sub');
+	use_ok('Perl::Analysis::Static::Question');
 }
 
 my $filename = 't/data/subs.pl';
 
 my $expected = {
 	$filename => [
-		PSA::Element::Sub->new(
+		Perl::Analysis::Static::Element::Sub->new(
 			name => 'function',
 			from => 1,
 			to   => 3
@@ -23,8 +23,8 @@ my $expected = {
 	]
 };
 
-my $question = PSA::Question->new();
-$question->class('PSA::Element::Sub');
+my $question = Perl::Analysis::Static::Question->new();
+$question->class('Perl::Analysis::Static::Element::Sub');
 $question->filter( ['Name'] );
 $question->arguments( ['function'] );
 my $got = $question->ask( [$filename] );
