@@ -1,0 +1,75 @@
+=head1 IDEEN
+
+=head2 Filter
+
+Ein Filter funktioniert nur für eine Klasse von Elementen (stimmt das?).
+
+Die Filter bekommen "einfache" Namen. Diese Namen werden dem Benutzer zur
+Auswahl präsentiert. Filter können Argumente haben, diese werden über Nummern
+(oder auch Namen?) übergeben.
+
+  # alle Subs suchen, die "meine_funktion" heißen
+  > perlanalyst --list-all PSA::Element::Sub --filter Sub-Name
+    --filter-arguments meine_funktion
+
+  # alle Subs suchen, die Methoden zu sein scheinen
+  > perlanalyst --list-all PSA::Element::Sub --filter Sub-Type
+    --filter-arguments method
+
+
+  # Wo wird die Zeichenkette "no_plan" verwendet?
+  > perl -I lib scripts/perlanalyst --list-all PSA::Element::String
+    --filter String -F no_plan
+
+  # Nach einer Variable suchen
+  > perl -I lib scripts/perlanalyst --list-all PSA::Element::Lexical
+    --filter Name --filter-arguments \$element 
+
+  # Zwei Filter nacheinander aufrufen
+  > perl -I lib scripts/perlanalyst --list-all PSA::Element::Sub
+    --filter Range --filter-arguments 1:10
+    --filter Name  --filter-arguments method
+    
+Wie man an den Beispielen sehr schön sehen kann, stößt der Aufruf auf der
+Kommandozeile sehr schnell an seine Grenzen. Das geht für kleine, einfache
+Dinge, aufwändige Abfragen kann der Benutzer damit aber nur schwer bauen.
+
+Da muss also eine nette grafische Oberfläche her und eine programmatische
+Lösung. Komplexere Filterketten will man nicht von Hand bauen. Vielleicht
+wäre es auch schick, wenn sich der Benutzer Filterketten irgendwie
+konfigurieren kann?
+
+
+
+=head1 FUNKTIONSWEISE
+
+=head2 Eingabe -> Analyse
+
+Über die Eingabe wird gesteuert, welche Analysen aufgerufen werden sollen.
+
+=head2 Analyse -> Datenbank
+
+Die Ergebnisse der Analyse werden in die Datenbank gekippt.
+
+=head2 Datenbank -> Filter
+
+Die Inhalte der Datenbank werden gefiltert.
+
+=head2 Filter -> Ausgabe
+
+Die Ergebnisse der Filter werden an die Ausgabeaufbereitung weitergereicht.
+
+=head1 BEISPIELAUFRUFE
+
+Alle Elemente einer Klasse finden:
+
+  perl -I lib scripts/perlanalyst --list-all PSA::Element::Sub
+    lib/App/Perlanalyst.pm
+
+Alle Blöcke innerhalb eines Bereichs finden:
+
+  perl -I lib scripts/perlanalyst --list-all PSA::Element::Block
+    --filter PSA::Filter::Block::Range --filter-arguments 1:10
+
+=cut
+

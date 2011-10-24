@@ -1,0 +1,36 @@
+=pod
+
+=head1 COMMAND LINE
+
+=head2 ORDER BY
+
+Current order is file, line, content. Order by content (aka file, content, line)
+should be reasonable.
+
+=head2 change --list--all to -a
+
+=head2 add --help and --usage
+
+=head2 combine -f/-F and -q/-Q
+
+Filters and questions don't have to take arguments. Chaining won't
+work if we keep it the current way. Maybe "-f Sub::Name,foo"
+would do instead of "-f Sub::Name -F foo"? Same goes for -q/-Q.
+
+=head1 FILTERS
+
+=over 4
+
+=item Name::Case::Lower, Name::Case::Upper
+
+=back
+
+=head1 QUESTIONS
+
+=over 4
+
+=item Levenshtein (sp?) for names:-)
+
+=back
+
+=cut
