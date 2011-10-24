@@ -16,7 +16,7 @@ Here are some basic usage examples to help get you started.
   perlanalyst --all Sub --filter Name --filter-argument foo
 
   # the same, but asked as a question
-  perlananalyst --question Sub::Name --question-argument foo
+  perlanalyst --question Sub::Name --question-argument foo
   
   # the same, but look in another directory
-  perlananalyst -q Sub::Name -Q foo ~/perl5/lib/perl5/Test
+  perlanalyst -q Sub::Name -Q foo ~/perl5/lib/perl5/Test
