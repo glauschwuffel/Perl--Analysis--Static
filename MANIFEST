@@ -1,6 +1,31 @@
-doc/LIESMICH
-doc/TODO
 lib/App/Perlanalyst.pm
+lib/Perl/Analysis/Static/Analysis.pm
+lib/Perl/Analysis/Static/Analysis/Block.pm
+lib/Perl/Analysis/Static/Analysis/Lexical.pm
+lib/Perl/Analysis/Static/Analysis/String.pm
+lib/Perl/Analysis/Static/Analysis/Sub.pm
+lib/Perl/Analysis/Static/Analysis/Use.pm
+lib/Perl/Analysis/Static/Document.pm
+lib/Perl/Analysis/Static/Element.pm
+lib/Perl/Analysis/Static/Element/Block.pm
+lib/Perl/Analysis/Static/Element/Lexical.pm
+lib/Perl/Analysis/Static/Element/String.pm
+lib/Perl/Analysis/Static/Element/Sub.pm
+lib/Perl/Analysis/Static/Element/Use.pm
+lib/Perl/Analysis/Static/Files.pm
+lib/Perl/Analysis/Static/Filter.pm
+lib/Perl/Analysis/Static/Filter/Name.pm
+lib/Perl/Analysis/Static/Filter/NameLike.pm
+lib/Perl/Analysis/Static/Filter/Range.pm
+lib/Perl/Analysis/Static/Filter/String.pm
+lib/Perl/Analysis/Static/Filter/StringLike.pm
+lib/Perl/Analysis/Static/Question.pm
+lib/Perl/Analysis/Static/Question/Lexical/Name.pm
+lib/Perl/Analysis/Static/Question/Lexical/NameLike.pm
+lib/Perl/Analysis/Static/Question/String.pm
+lib/Perl/Analysis/Static/Question/StringLike.pm
+lib/Perl/Analysis/Static/Question/Sub/Name.pm
+lib/Perl/Analysis/Static/Question/Sub/NameLike.pm
 lib/PSA/Analysis.pm
 lib/PSA/Analysis/Block.pm
 lib/PSA/Analysis/Lexical.pm
@@ -33,6 +58,7 @@ Makefile.PL
 MANIFEST			This list of files
 META.json			Module JSON meta-data (added by MakeMaker)
 META.yml			Module YAML meta-data (added by MakeMaker)
+README
 remake.sh
 scripts/perlanalyst
 t/blocks.t

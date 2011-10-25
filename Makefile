@@ -19,7 +19,7 @@
 #     LICENSE => q[perl]
 #     NAME => q[Perl::Analysis::Static]
 #     PREREQ_FATAL => q[1]
-#     PREREQ_PM => { PPI=>q[0], Getopt::Long=>q[0], Term::ANSIColor=>q[0], File::Next=>q[0], Module::Runtime=>q[0], Moose=>q[0], IO::Interactive=>q[0] }
+#     PREREQ_PM => { PPI=>q[0], Getopt::Long=>q[0], Term::ANSIColor=>q[0], Module::List=>q[0], Module::Runtime=>q[0], File::Next=>q[0], IO::Interactive=>q[0], Moose=>q[0] }
 #     VERSION => q[0.002]
 
 # --- MakeMaker post_initialize section:
@@ -265,10 +265,10 @@ PM_TO_BLIB = lib/Perl/Analysis/Static/Filter/Range.pm \
 	blib/lib/Perl/Analysis/Static/Analysis/Use.pm \
 	lib/Perl/Analysis/Static/Element/Use.pm \
 	blib/lib/Perl/Analysis/Static/Element/Use.pm \
-	lib/Perl/Analysis/Static/Filter/NameLike.pm \
-	blib/lib/Perl/Analysis/Static/Filter/NameLike.pm \
 	lib/Perl/Analysis/Static/Filter/String.pm \
 	blib/lib/Perl/Analysis/Static/Filter/String.pm \
+	lib/Perl/Analysis/Static/Filter/NameLike.pm \
+	blib/lib/Perl/Analysis/Static/Filter/NameLike.pm \
 	lib/Perl/Analysis/Static/Element/Sub.pm \
 	blib/lib/Perl/Analysis/Static/Element/Sub.pm \
 	lib/Perl/Analysis/Static/Element/Block.pm \
@@ -656,6 +656,7 @@ metafile : create_distdir
 	$(NOECHO) $(ECHO) '  File::Next: 0' >> META_new.yml
 	$(NOECHO) $(ECHO) '  Getopt::Long: 0' >> META_new.yml
 	$(NOECHO) $(ECHO) '  IO::Interactive: 0' >> META_new.yml
+	$(NOECHO) $(ECHO) '  Module::List: 0' >> META_new.yml
 	$(NOECHO) $(ECHO) '  Module::Runtime: 0' >> META_new.yml
 	$(NOECHO) $(ECHO) '  Moose: 0' >> META_new.yml
 	$(NOECHO) $(ECHO) '  PPI: 0' >> META_new.yml
@@ -700,6 +701,7 @@ metafile : create_distdir
 	$(NOECHO) $(ECHO) '            "File::Next" : 0,' >> META_new.json
 	$(NOECHO) $(ECHO) '            "Getopt::Long" : 0,' >> META_new.json
 	$(NOECHO) $(ECHO) '            "IO::Interactive" : 0,' >> META_new.json
+	$(NOECHO) $(ECHO) '            "Module::List" : 0,' >> META_new.json
 	$(NOECHO) $(ECHO) '            "Module::Runtime" : 0,' >> META_new.json
 	$(NOECHO) $(ECHO) '            "Moose" : 0,' >> META_new.json
 	$(NOECHO) $(ECHO) '            "PPI" : 0,' >> META_new.json
@@ -1012,6 +1014,7 @@ ppd :
 	$(NOECHO) $(ECHO) '        <REQUIRE NAME="File::Next" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <REQUIRE NAME="Getopt::Long" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <REQUIRE NAME="IO::Interactive" />' >> $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '        <REQUIRE NAME="Module::List" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <REQUIRE NAME="Module::Runtime" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <REQUIRE NAME="Moose::" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <REQUIRE NAME="PPI::" />' >> $(DISTNAME).ppd
@@ -1043,8 +1046,8 @@ pm_to_blib : $(FIRST_MAKEFILE) $(TO_INST_PM)
 	  lib/Perl/Analysis/Static/Question/Sub/NameLike.pm blib/lib/Perl/Analysis/Static/Question/Sub/NameLike.pm \
 	  lib/Perl/Analysis/Static/Analysis/Use.pm blib/lib/Perl/Analysis/Static/Analysis/Use.pm \
 	  lib/Perl/Analysis/Static/Element/Use.pm blib/lib/Perl/Analysis/Static/Element/Use.pm \
-	  lib/Perl/Analysis/Static/Filter/NameLike.pm blib/lib/Perl/Analysis/Static/Filter/NameLike.pm \
 	  lib/Perl/Analysis/Static/Filter/String.pm blib/lib/Perl/Analysis/Static/Filter/String.pm \
+	  lib/Perl/Analysis/Static/Filter/NameLike.pm blib/lib/Perl/Analysis/Static/Filter/NameLike.pm \
 	  lib/Perl/Analysis/Static/Element/Sub.pm blib/lib/Perl/Analysis/Static/Element/Sub.pm \
 	  lib/Perl/Analysis/Static/Element/Block.pm blib/lib/Perl/Analysis/Static/Element/Block.pm \
 	  lib/Perl/Analysis/Static/Analysis.pm blib/lib/Perl/Analysis/Static/Analysis.pm \

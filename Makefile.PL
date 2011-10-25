@@ -7,9 +7,10 @@ WriteMakefile(
     AUTHOR    => 'Gregor Goldbach <glauschwuffel@nomaden.org>',
     PREREQ_PM => {
         'Moose'           => 0,
-	'File::Next'      => 0,
+        'File::Next'      => 0,
         'PPI'             => 0,
         'Module::Runtime' => 0,
+        'Module::List'    => 0,
         'Getopt::Long'    => 0,
         'IO::Interactive' => 0,
         'Term::ANSIColor' => 0

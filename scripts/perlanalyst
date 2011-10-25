@@ -84,6 +84,18 @@ Ask the question of that name.
 
 Set the arguments for the question.
 
+=item B<--list-analyses>
+
+List available analyses.
+
+=item B<--list-filters>
+
+List available filters.
+
+=item B<--list-questions>
+
+List available questions.
+
 =back
 
 =head1 CONCEPTS

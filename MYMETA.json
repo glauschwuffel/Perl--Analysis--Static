@@ -1,10 +1,10 @@
 {
    "abstract" : "Static analysis of Perl documents",
    "author" : [
-      "Gregor Goldbach <glauschwuffel@nomaden.org>"
+      "Gregor Goldbach <ggoldbach@cpan.org>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "ExtUtils::MakeMaker version 6.59, CPAN::Meta::Converter version 2.112150",
+   "generated_by" : "ExtUtils::MakeMaker version 6.59, CPAN::Meta::Converter version 2.112621, CPAN::Meta::Converter version 2.112150",
    "license" : [
       "perl_5"
    ],
@@ -12,7 +12,7 @@
       "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
       "version" : "2"
    },
-   "name" : "Perl-Analysis-Static",
+   "name" : "PSA",
    "no_index" : {
       "directory" : [
          "t",
@@ -35,6 +35,7 @@
             "File::Next" : 0,
             "Getopt::Long" : 0,
             "IO::Interactive" : 0,
+            "Module::List" : 0,
             "Module::Runtime" : 0,
             "Moose" : 0,
             "PPI" : 0,
