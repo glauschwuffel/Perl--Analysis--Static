@@ -54,7 +54,6 @@ sub process_args {
         GetOptions(
             'a|analysis|all=s'       => \$self->{analysis},
             'f|filter=s'             => \@{ $self->{filter} },
-            'F|filter-arguments=s'   => \@{ $self->{filter_arguments} },
             'h|help|?'               => \$self->{show_help},
             'man'                    => sub {
                                           require Pod::Usage;
@@ -112,15 +111,23 @@ sub analyse {
 
     my $element_class = $self->{analysis};
 
-    # preprend Perl::Analysis::Static::Element if it's not already there
-    unless ( $element_class =~ m{^Perl::Analysis::Static::Element::} ) {
-        $element_class = 'Perl::Analysis::Static::Element::' . $element_class;
+    # preprend Perl::Analysis::Static::Element
+    $element_class = 'Perl::Analysis::Static::Element::' . $element_class;
+
+    my @filters;
+    my @arguments;
+    for my $filter (@{$self->{filter}}) {
+        # split filter and arguments
+        my ($f, $args)=split(/=/, $filter);
+
+        push @filters, $f;
+        push @arguments, $args;
     }
 
-    my $question = Perl::Analysis::Static::Question->new();
-    $question->class($element_class);
-    $question->filter( $self->{filter} );
-    $question->arguments( $self->{filter_arguments} );
+    my $question = Perl::Analysis::Static::Question->new(
+      class => $element_class,
+      filter => \@filters,
+      arguments => \@arguments);
     my $answer = $question->ask( $self->_files );
 
     return $self->_print_answer($answer);
@@ -147,14 +154,14 @@ Analyses:
 Filtering:
   --filter              Specify what filter to run on the list of elements found.
                         May be specified more than once.
-  --filter-argument     Give arguments for the filter.
-                        May be specified more than once.
+                        Arguments to the filter may be given after an equal sign.
+                        (e.g. --filter Name=foo)
   --list-filters        List all filters that may be used.
 
 Questions:
   --question            Specify what question to ask.
-  --question-argument   Give arguments for the filter implied by the question.
-                        May be specified more than once.
+                        Arguments to the question may be given after an equal sign.
+                        (e.g. --question Sub::Name=foo)
   --list-questions      List all questions that may be called.
 
 Miscellaneous:
@@ -229,21 +236,18 @@ sub _display_elements_for_file {
 sub _ask_question {
     my ($self) = @_;
 
-    my $question_class = $self->{question};
-    my $arguments      = $self->{question_arguments};
+    my $q = $self->{question};
+    my ($question_class, $args)=split(/=/, $q);
 
-    # preprend Perl::Analysis::Static::Question if it's not already there
-    unless ( $question_class =~ m{^Perl::Analysis::Static::Question::} ) {
-        $question_class =
-            'Perl::Analysis::Static::Question::' . $question_class;
-    }
+    # preprend Perl::Analysis::Static::Question
+    $question_class='Perl::Analysis::Static::Question::' . $question_class;
 
     # load the question's module
     use_module($question_class);
 
     # create instance and set its arguments
     my $question = $question_class->new();
-    $question->set_arguments($arguments);
+    $question->set_arguments($args);
 
     return $question->ask( $self->_files() );
 }

@@ -38,13 +38,13 @@ examples to help get you started.
   perlanalyst -all Sub
   
   # the same, but show only the declaration of the subroutine "foo"
-  perlanalyst -all Sub --filter Name --filter-argument foo
+  perlanalyst -all Sub --filter Name=foo
 
   # the same, but asked as a question
-  perlananalyst --question Sub::Name --question-argument foo
+  perlananalyst --question Sub::Name=foo
   
   # the same, but look in another directory
-  perlananalyst -q Sub::Name -Q foo ~/perl5/lib/perl5/Test
+  perlananalyst -q Sub::Name=foo ~/perl5/lib/perl5/Test
   
   
 =head1 FILE SELECTION
@@ -72,17 +72,9 @@ Send the results of the analysis through this filter. Can be specified
 multiple times, the filters are run in the order they appear one the command
 line.
 
-=item B<-F I<ARGUMENTS>>, B<--filter-argument I<ARGUMENTS>>
-
-Set the arguments for the filter you specified.
-
 =item B<-q I<NAME>>, B<--question I<NAME>>
 
 Ask the question of that name.
-
-=item B<-Q I<ARGUMENTS>>, B<--question-arguments I<ARGUMENTS>>
-
-Set the arguments for the question.
 
 =item B<--list-analyses>
 
