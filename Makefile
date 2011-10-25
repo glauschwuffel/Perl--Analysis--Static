@@ -1,20 +1,19 @@
 # This Makefile is for the Perl::Analysis::Static extension to perl.
 #
 # It was generated automatically by MakeMaker version
-# 6.59 (Revision: 65900) from the contents of
+# 6.56 (Revision: 65600) from the contents of
 # Makefile.PL. Don't edit this file, edit Makefile.PL instead.
 #
 #       ANY CHANGES MADE HERE WILL BE LOST!
 #
-#   MakeMaker ARGV: (q[INSTALL_BASE=/afs/dfn-cert.de/user/goldbach/])
+#   MakeMaker ARGV: (q[INSTALL_BASE=/home/yxa])
 #
 
 #   MakeMaker Parameters:
 
 #     ABSTRACT => q[Static analysis of Perl documents]
-#     AUTHOR => [q[Gregor Goldbach <glauschwuffel@nomaden.org>]]
+#     AUTHOR => q[Gregor Goldbach <glauschwuffel@nomaden.org>]
 #     BUILD_REQUIRES => {  }
-#     CONFIGURE_REQUIRES => {  }
 #     EXE_FILES => [q[scripts/perlanalyst]]
 #     LICENSE => q[perl]
 #     NAME => q[Perl::Analysis::Static]
@@ -27,30 +26,30 @@
 
 # --- MakeMaker const_config section:
 
-# These definitions are from config.sh (via /scratch/goldbach/inst/perlbrew/perls/perl-5.8.8/lib/5.8.8/x86_64-linux/Config.pm).
+# These definitions are from config.sh (via /usr/lib/perl/5.12/Config.pm).
 # They may have been overridden via Makefile.PL or on the command line.
 AR = ar
 CC = cc
-CCCDLFLAGS = -fpic
+CCCDLFLAGS = -fPIC
 CCDLFLAGS = -Wl,-E
 DLEXT = so
 DLSRC = dl_dlopen.xs
 EXE_EXT = 
 FULL_AR = /usr/bin/ar
 LD = cc
-LDDLFLAGS = -shared -L/usr/local/lib
-LDFLAGS =  -lgdbm -L/usr/local/lib
-LIBC = /lib/libc-2.11.3.so
+LDDLFLAGS = -shared -O2 -g -L/usr/local/lib -fstack-protector
+LDFLAGS =  -fstack-protector -L/usr/local/lib
+LIBC = 
 LIB_EXT = .a
 OBJ_EXT = .o
 OSNAME = linux
-OSVERS = 2.6.37.6-0.7-desktop
+OSVERS = 2.6.24-28-server
 RANLIB = :
-SITELIBEXP = /scratch/goldbach/inst/perlbrew/perls/perl-5.8.8/lib/site_perl/5.8.8
-SITEARCHEXP = /scratch/goldbach/inst/perlbrew/perls/perl-5.8.8/lib/site_perl/5.8.8/x86_64-linux
+SITELIBEXP = /usr/local/share/perl/5.12.4
+SITEARCHEXP = /usr/local/lib/perl/5.12.4
 SO = so
-VENDORARCHEXP = 
-VENDORLIBEXP = 
+VENDORARCHEXP = /usr/lib/perl5
+VENDORLIBEXP = /usr/share/perl5
 
 
 # --- MakeMaker constants section:
@@ -72,10 +71,10 @@ INST_BIN = blib/bin
 INST_LIB = blib/lib
 INST_MAN1DIR = blib/man1
 INST_MAN3DIR = blib/man3
-MAN1EXT = 1
-MAN3EXT = 3
+MAN1EXT = 1p
+MAN3EXT = 3pm
 INSTALLDIRS = site
-INSTALL_BASE = /afs/dfn-cert.de/user/goldbach/
+INSTALL_BASE = /home/yxa
 DESTDIR = 
 PREFIX = $(INSTALL_BASE)
 INSTALLPRIVLIB = $(INSTALL_BASE)/lib/perl5
@@ -84,11 +83,11 @@ INSTALLSITELIB = $(INSTALL_BASE)/lib/perl5
 DESTINSTALLSITELIB = $(DESTDIR)$(INSTALLSITELIB)
 INSTALLVENDORLIB = $(INSTALL_BASE)/lib/perl5
 DESTINSTALLVENDORLIB = $(DESTDIR)$(INSTALLVENDORLIB)
-INSTALLARCHLIB = $(INSTALL_BASE)/lib/perl5/x86_64-linux
+INSTALLARCHLIB = $(INSTALL_BASE)/lib/perl5/i686-linux-gnu-thread-multi-64int
 DESTINSTALLARCHLIB = $(DESTDIR)$(INSTALLARCHLIB)
-INSTALLSITEARCH = $(INSTALL_BASE)/lib/perl5/x86_64-linux
+INSTALLSITEARCH = $(INSTALL_BASE)/lib/perl5/i686-linux-gnu-thread-multi-64int
 DESTINSTALLSITEARCH = $(DESTDIR)$(INSTALLSITEARCH)
-INSTALLVENDORARCH = $(INSTALL_BASE)/lib/perl5/x86_64-linux
+INSTALLVENDORARCH = $(INSTALL_BASE)/lib/perl5/i686-linux-gnu-thread-multi-64int
 DESTINSTALLVENDORARCH = $(DESTDIR)$(INSTALLVENDORARCH)
 INSTALLBIN = $(INSTALL_BASE)/bin
 DESTINSTALLBIN = $(DESTDIR)$(INSTALLBIN)
@@ -114,16 +113,16 @@ INSTALLSITEMAN3DIR = $(INSTALL_BASE)/man/man3
 DESTINSTALLSITEMAN3DIR = $(DESTDIR)$(INSTALLSITEMAN3DIR)
 INSTALLVENDORMAN3DIR = $(INSTALL_BASE)/man/man3
 DESTINSTALLVENDORMAN3DIR = $(DESTDIR)$(INSTALLVENDORMAN3DIR)
-PERL_LIB = /scratch/goldbach/inst/perlbrew/perls/perl-5.8.8/lib/5.8.8
-PERL_ARCHLIB = /scratch/goldbach/inst/perlbrew/perls/perl-5.8.8/lib/5.8.8/x86_64-linux
+PERL_LIB = /usr/share/perl/5.12
+PERL_ARCHLIB = /usr/lib/perl/5.12
 LIBPERL_A = libperl.a
 FIRST_MAKEFILE = Makefile
 MAKEFILE_OLD = Makefile.old
 MAKE_APERL_FILE = Makefile.aperl
 PERLMAINCC = $(CC)
-PERL_INC = /scratch/goldbach/inst/perlbrew/perls/perl-5.8.8/lib/5.8.8/x86_64-linux/CORE
-PERL = /scratch/goldbach/inst/perlbrew/perls/perl-5.8.8/bin/perl
-FULLPERL = /scratch/goldbach/inst/perlbrew/perls/perl-5.8.8/bin/perl
+PERL_INC = /usr/lib/perl/5.12/CORE
+PERL = /usr/bin/perl
+FULLPERL = /usr/bin/perl
 ABSPERL = $(PERL)
 PERLRUN = $(PERL)
 FULLPERLRUN = $(FULLPERL)
@@ -136,9 +135,9 @@ PERM_DIR = 755
 PERM_RW = 644
 PERM_RWX = 755
 
-MAKEMAKER   = /scratch/goldbach/inst/perlbrew/perls/perl-5.8.8/lib/5.8.8/ExtUtils/MakeMaker.pm
-MM_VERSION  = 6.59
-MM_REVISION = 65900
+MAKEMAKER   = /usr/share/perl/5.12/ExtUtils/MakeMaker.pm
+MM_VERSION  = 6.56
+MM_REVISION = 65600
 
 # FULLEXT = Pathname for extension directory (eg Foo/Bar/Oracle).
 # BASEEXT = Basename part of FULLEXT. May be just equal FULLEXT. (eg Oracle)
@@ -231,38 +230,38 @@ TO_INST_PM = lib/App/Perlanalyst.pm \
 	lib/Perl/Analysis/Static/Question/Sub/Name.pm \
 	lib/Perl/Analysis/Static/Question/Sub/NameLike.pm
 
-PM_TO_BLIB = lib/Perl/Analysis/Static/Filter/Range.pm \
-	blib/lib/Perl/Analysis/Static/Filter/Range.pm \
-	lib/Perl/Analysis/Static/Filter/Name.pm \
+PM_TO_BLIB = lib/Perl/Analysis/Static/Filter/Name.pm \
 	blib/lib/Perl/Analysis/Static/Filter/Name.pm \
+	lib/Perl/Analysis/Static/Filter/Range.pm \
+	blib/lib/Perl/Analysis/Static/Filter/Range.pm \
 	lib/Perl/Analysis/Static/Element/String.pm \
 	blib/lib/Perl/Analysis/Static/Element/String.pm \
 	lib/Perl/Analysis/Static/Filter.pm \
 	blib/lib/Perl/Analysis/Static/Filter.pm \
 	lib/Perl/Analysis/Static/Document.pm \
 	blib/lib/Perl/Analysis/Static/Document.pm \
-	lib/Perl/Analysis/Static/Question/Lexical/Name.pm \
-	blib/lib/Perl/Analysis/Static/Question/Lexical/Name.pm \
-	lib/Perl/Analysis/Static/Filter/StringLike.pm \
-	blib/lib/Perl/Analysis/Static/Filter/StringLike.pm \
 	lib/Perl/Analysis/Static/Analysis/Block.pm \
 	blib/lib/Perl/Analysis/Static/Analysis/Block.pm \
+	lib/Perl/Analysis/Static/Filter/StringLike.pm \
+	blib/lib/Perl/Analysis/Static/Filter/StringLike.pm \
+	lib/Perl/Analysis/Static/Question/Lexical/Name.pm \
+	blib/lib/Perl/Analysis/Static/Question/Lexical/Name.pm \
 	lib/Perl/Analysis/Static/Element/Lexical.pm \
 	blib/lib/Perl/Analysis/Static/Element/Lexical.pm \
 	lib/Perl/Analysis/Static/Element.pm \
 	blib/lib/Perl/Analysis/Static/Element.pm \
-	lib/Perl/Analysis/Static/Question/String.pm \
-	blib/lib/Perl/Analysis/Static/Question/String.pm \
 	lib/Perl/Analysis/Static/Analysis/String.pm \
 	blib/lib/Perl/Analysis/Static/Analysis/String.pm \
+	lib/Perl/Analysis/Static/Question/String.pm \
+	blib/lib/Perl/Analysis/Static/Question/String.pm \
 	lib/App/Perlanalyst.pm \
 	blib/lib/App/Perlanalyst.pm \
 	lib/Perl/Analysis/Static/Question/Lexical/NameLike.pm \
 	blib/lib/Perl/Analysis/Static/Question/Lexical/NameLike.pm \
-	lib/Perl/Analysis/Static/Question/Sub/NameLike.pm \
-	blib/lib/Perl/Analysis/Static/Question/Sub/NameLike.pm \
 	lib/Perl/Analysis/Static/Analysis/Use.pm \
 	blib/lib/Perl/Analysis/Static/Analysis/Use.pm \
+	lib/Perl/Analysis/Static/Question/Sub/NameLike.pm \
+	blib/lib/Perl/Analysis/Static/Question/Sub/NameLike.pm \
 	lib/Perl/Analysis/Static/Element/Use.pm \
 	blib/lib/Perl/Analysis/Static/Element/Use.pm \
 	lib/Perl/Analysis/Static/Filter/String.pm \
@@ -277,20 +276,20 @@ PM_TO_BLIB = lib/Perl/Analysis/Static/Filter/Range.pm \
 	blib/lib/Perl/Analysis/Static/Analysis.pm \
 	lib/Perl/Analysis/Static/Question.pm \
 	blib/lib/Perl/Analysis/Static/Question.pm \
-	lib/Perl/Analysis/Static/Files.pm \
-	blib/lib/Perl/Analysis/Static/Files.pm \
 	lib/Perl/Analysis/Static/Analysis/Sub.pm \
 	blib/lib/Perl/Analysis/Static/Analysis/Sub.pm \
+	lib/Perl/Analysis/Static/Files.pm \
+	blib/lib/Perl/Analysis/Static/Files.pm \
 	lib/Perl/Analysis/Static/Question/Sub/Name.pm \
 	blib/lib/Perl/Analysis/Static/Question/Sub/Name.pm \
-	lib/Perl/Analysis/Static/Question/StringLike.pm \
-	blib/lib/Perl/Analysis/Static/Question/StringLike.pm \
 	lib/Perl/Analysis/Static/Analysis/Lexical.pm \
-	blib/lib/Perl/Analysis/Static/Analysis/Lexical.pm
+	blib/lib/Perl/Analysis/Static/Analysis/Lexical.pm \
+	lib/Perl/Analysis/Static/Question/StringLike.pm \
+	blib/lib/Perl/Analysis/Static/Question/StringLike.pm
 
 
 # --- MakeMaker platform_constants section:
-MM_Unix_VERSION = 6.59
+MM_Unix_VERSION = 6.56
 PERL_MALLOC_DEF = -DPERL_EXTMALLOC_DEF -Dmalloc=Perl_malloc -Dfree=Perl_mfree -Drealloc=Perl_realloc -Dcalloc=Perl_calloc
 
 
@@ -513,46 +512,46 @@ manifypods : pure_all  \
 	lib/Perl/Analysis/Static/Element/String.pm \
 	lib/Perl/Analysis/Static/Filter.pm \
 	lib/Perl/Analysis/Static/Document.pm \
-	lib/Perl/Analysis/Static/Question/Lexical/Name.pm \
 	lib/Perl/Analysis/Static/Analysis/Block.pm \
+	lib/Perl/Analysis/Static/Question/Lexical/Name.pm \
 	lib/Perl/Analysis/Static/Element/Lexical.pm \
-	lib/Perl/Analysis/Static/Question/String.pm \
 	lib/Perl/Analysis/Static/Analysis/String.pm \
+	lib/Perl/Analysis/Static/Question/String.pm \
 	lib/App/Perlanalyst.pm \
 	lib/Perl/Analysis/Static/Question/Lexical/NameLike.pm \
-	lib/Perl/Analysis/Static/Question/Sub/NameLike.pm \
 	lib/Perl/Analysis/Static/Analysis/Use.pm \
+	lib/Perl/Analysis/Static/Question/Sub/NameLike.pm \
 	lib/Perl/Analysis/Static/Element/Use.pm \
 	lib/Perl/Analysis/Static/Element/Sub.pm \
 	lib/Perl/Analysis/Static/Analysis.pm \
 	lib/Perl/Analysis/Static/Question.pm \
 	lib/Perl/Analysis/Static/Analysis/Sub.pm \
 	lib/Perl/Analysis/Static/Question/Sub/Name.pm \
-	lib/Perl/Analysis/Static/Question/StringLike.pm \
-	lib/Perl/Analysis/Static/Analysis/Lexical.pm
-	$(NOECHO) $(POD2MAN) --section=1 --perm_rw=$(PERM_RW) \
+	lib/Perl/Analysis/Static/Analysis/Lexical.pm \
+	lib/Perl/Analysis/Static/Question/StringLike.pm
+	$(NOECHO) $(POD2MAN) --section=$(MAN1EXT) --perm_rw=$(PERM_RW) \
 	  scripts/perlanalyst $(INST_MAN1DIR)/perlanalyst.$(MAN1EXT) 
-	$(NOECHO) $(POD2MAN) --section=3 --perm_rw=$(PERM_RW) \
+	$(NOECHO) $(POD2MAN) --section=$(MAN3EXT) --perm_rw=$(PERM_RW) \
 	  lib/Perl/Analysis/Static/Element/String.pm $(INST_MAN3DIR)/Perl::Analysis::Static::Element::String.$(MAN3EXT) \
 	  lib/Perl/Analysis/Static/Filter.pm $(INST_MAN3DIR)/Perl::Analysis::Static::Filter.$(MAN3EXT) \
 	  lib/Perl/Analysis/Static/Document.pm $(INST_MAN3DIR)/Perl::Analysis::Static::Document.$(MAN3EXT) \
-	  lib/Perl/Analysis/Static/Question/Lexical/Name.pm $(INST_MAN3DIR)/Perl::Analysis::Static::Question::Lexical::Name.$(MAN3EXT) \
 	  lib/Perl/Analysis/Static/Analysis/Block.pm $(INST_MAN3DIR)/Perl::Analysis::Static::Analysis::Block.$(MAN3EXT) \
+	  lib/Perl/Analysis/Static/Question/Lexical/Name.pm $(INST_MAN3DIR)/Perl::Analysis::Static::Question::Lexical::Name.$(MAN3EXT) \
 	  lib/Perl/Analysis/Static/Element/Lexical.pm $(INST_MAN3DIR)/Perl::Analysis::Static::Element::Lexical.$(MAN3EXT) \
-	  lib/Perl/Analysis/Static/Question/String.pm $(INST_MAN3DIR)/Perl::Analysis::Static::Question::String.$(MAN3EXT) \
 	  lib/Perl/Analysis/Static/Analysis/String.pm $(INST_MAN3DIR)/Perl::Analysis::Static::Analysis::String.$(MAN3EXT) \
+	  lib/Perl/Analysis/Static/Question/String.pm $(INST_MAN3DIR)/Perl::Analysis::Static::Question::String.$(MAN3EXT) \
 	  lib/App/Perlanalyst.pm $(INST_MAN3DIR)/App::Perlanalyst.$(MAN3EXT) \
 	  lib/Perl/Analysis/Static/Question/Lexical/NameLike.pm $(INST_MAN3DIR)/Perl::Analysis::Static::Question::Lexical::NameLike.$(MAN3EXT) \
-	  lib/Perl/Analysis/Static/Question/Sub/NameLike.pm $(INST_MAN3DIR)/Perl::Analysis::Static::Question::Sub::NameLike.$(MAN3EXT) \
 	  lib/Perl/Analysis/Static/Analysis/Use.pm $(INST_MAN3DIR)/Perl::Analysis::Static::Analysis::Use.$(MAN3EXT) \
+	  lib/Perl/Analysis/Static/Question/Sub/NameLike.pm $(INST_MAN3DIR)/Perl::Analysis::Static::Question::Sub::NameLike.$(MAN3EXT) \
 	  lib/Perl/Analysis/Static/Element/Use.pm $(INST_MAN3DIR)/Perl::Analysis::Static::Element::Use.$(MAN3EXT) \
 	  lib/Perl/Analysis/Static/Element/Sub.pm $(INST_MAN3DIR)/Perl::Analysis::Static::Element::Sub.$(MAN3EXT) \
 	  lib/Perl/Analysis/Static/Analysis.pm $(INST_MAN3DIR)/Perl::Analysis::Static::Analysis.$(MAN3EXT) \
 	  lib/Perl/Analysis/Static/Question.pm $(INST_MAN3DIR)/Perl::Analysis::Static::Question.$(MAN3EXT) \
 	  lib/Perl/Analysis/Static/Analysis/Sub.pm $(INST_MAN3DIR)/Perl::Analysis::Static::Analysis::Sub.$(MAN3EXT) \
 	  lib/Perl/Analysis/Static/Question/Sub/Name.pm $(INST_MAN3DIR)/Perl::Analysis::Static::Question::Sub::Name.$(MAN3EXT) \
-	  lib/Perl/Analysis/Static/Question/StringLike.pm $(INST_MAN3DIR)/Perl::Analysis::Static::Question::StringLike.$(MAN3EXT) \
-	  lib/Perl/Analysis/Static/Analysis/Lexical.pm $(INST_MAN3DIR)/Perl::Analysis::Static::Analysis::Lexical.$(MAN3EXT) 
+	  lib/Perl/Analysis/Static/Analysis/Lexical.pm $(INST_MAN3DIR)/Perl::Analysis::Static::Analysis::Lexical.$(MAN3EXT) \
+	  lib/Perl/Analysis/Static/Question/StringLike.pm $(INST_MAN3DIR)/Perl::Analysis::Static::Question::StringLike.$(MAN3EXT) 
 
 
 
@@ -598,15 +597,14 @@ clean :: clean_subdirs
 	  *$(LIB_EXT) core \
 	  core.[0-9] $(INST_ARCHAUTODIR)/extralibs.all \
 	  core.[0-9][0-9] $(BASEEXT).bso \
-	  pm_to_blib.ts MYMETA.json \
-	  core.[0-9][0-9][0-9][0-9] MYMETA.yml \
+	  pm_to_blib.ts core.[0-9][0-9][0-9][0-9] \
 	  $(BASEEXT).x $(BOOTSTRAP) \
 	  perl$(EXE_EXT) tmon.out \
 	  *$(OBJ_EXT) pm_to_blib \
 	  $(INST_ARCHAUTODIR)/extralibs.ld blibdirs.ts \
 	  core.[0-9][0-9][0-9][0-9][0-9] *perl.core \
 	  core.*perl.*.? $(MAKE_APERL_FILE) \
-	  $(BASEEXT).def perl \
+	  perl $(BASEEXT).def \
 	  core.[0-9][0-9][0-9] mon.out \
 	  lib$(BASEEXT).def perlmain.c \
 	  perl.exe so_locations \
@@ -633,86 +631,36 @@ realclean purge ::  clean realclean_subdirs
 # --- MakeMaker metafile section:
 metafile : create_distdir
 	$(NOECHO) $(ECHO) Generating META.yml
-	$(NOECHO) $(ECHO) '---' > META_new.yml
-	$(NOECHO) $(ECHO) 'abstract: '\''Static analysis of Perl documents'\''' >> META_new.yml
+	$(NOECHO) $(ECHO) '--- #YAML:1.0' > META_new.yml
+	$(NOECHO) $(ECHO) 'name:               Perl-Analysis-Static' >> META_new.yml
+	$(NOECHO) $(ECHO) 'version:            0.002' >> META_new.yml
+	$(NOECHO) $(ECHO) 'abstract:           Static analysis of Perl documents' >> META_new.yml
 	$(NOECHO) $(ECHO) 'author:' >> META_new.yml
-	$(NOECHO) $(ECHO) '  - '\''Gregor Goldbach <glauschwuffel@nomaden.org>'\''' >> META_new.yml
-	$(NOECHO) $(ECHO) 'build_requires:' >> META_new.yml
-	$(NOECHO) $(ECHO) '  ExtUtils::MakeMaker: 0' >> META_new.yml
+	$(NOECHO) $(ECHO) '    - Gregor Goldbach <glauschwuffel@nomaden.org>' >> META_new.yml
+	$(NOECHO) $(ECHO) 'license:            perl' >> META_new.yml
+	$(NOECHO) $(ECHO) 'distribution_type:  module' >> META_new.yml
 	$(NOECHO) $(ECHO) 'configure_requires:' >> META_new.yml
-	$(NOECHO) $(ECHO) '  ExtUtils::MakeMaker: 0' >> META_new.yml
-	$(NOECHO) $(ECHO) 'dynamic_config: 1' >> META_new.yml
-	$(NOECHO) $(ECHO) 'generated_by: '\''ExtUtils::MakeMaker version 6.59, CPAN::Meta::Converter version 2.112150'\''' >> META_new.yml
-	$(NOECHO) $(ECHO) 'license: perl' >> META_new.yml
-	$(NOECHO) $(ECHO) 'meta-spec:' >> META_new.yml
-	$(NOECHO) $(ECHO) '  url: http://module-build.sourceforge.net/META-spec-v1.4.html' >> META_new.yml
-	$(NOECHO) $(ECHO) '  version: 1.4' >> META_new.yml
-	$(NOECHO) $(ECHO) 'name: Perl-Analysis-Static' >> META_new.yml
-	$(NOECHO) $(ECHO) 'no_index:' >> META_new.yml
-	$(NOECHO) $(ECHO) '  directory:' >> META_new.yml
-	$(NOECHO) $(ECHO) '    - t' >> META_new.yml
-	$(NOECHO) $(ECHO) '    - inc' >> META_new.yml
+	$(NOECHO) $(ECHO) '    ExtUtils::MakeMaker:  0' >> META_new.yml
+	$(NOECHO) $(ECHO) 'build_requires:' >> META_new.yml
+	$(NOECHO) $(ECHO) '    ExtUtils::MakeMaker:  0' >> META_new.yml
 	$(NOECHO) $(ECHO) 'requires:' >> META_new.yml
-	$(NOECHO) $(ECHO) '  File::Next: 0' >> META_new.yml
-	$(NOECHO) $(ECHO) '  Getopt::Long: 0' >> META_new.yml
-	$(NOECHO) $(ECHO) '  IO::Interactive: 0' >> META_new.yml
-	$(NOECHO) $(ECHO) '  Module::List: 0' >> META_new.yml
-	$(NOECHO) $(ECHO) '  Module::Runtime: 0' >> META_new.yml
-	$(NOECHO) $(ECHO) '  Moose: 0' >> META_new.yml
-	$(NOECHO) $(ECHO) '  PPI: 0' >> META_new.yml
-	$(NOECHO) $(ECHO) '  Term::ANSIColor: 0' >> META_new.yml
-	$(NOECHO) $(ECHO) 'version: 0.002' >> META_new.yml
+	$(NOECHO) $(ECHO) '    File::Next:       0' >> META_new.yml
+	$(NOECHO) $(ECHO) '    Getopt::Long:     0' >> META_new.yml
+	$(NOECHO) $(ECHO) '    IO::Interactive:  0' >> META_new.yml
+	$(NOECHO) $(ECHO) '    Module::List:     0' >> META_new.yml
+	$(NOECHO) $(ECHO) '    Module::Runtime:  0' >> META_new.yml
+	$(NOECHO) $(ECHO) '    Moose:            0' >> META_new.yml
+	$(NOECHO) $(ECHO) '    PPI:              0' >> META_new.yml
+	$(NOECHO) $(ECHO) '    Term::ANSIColor:  0' >> META_new.yml
+	$(NOECHO) $(ECHO) 'no_index:' >> META_new.yml
+	$(NOECHO) $(ECHO) '    directory:' >> META_new.yml
+	$(NOECHO) $(ECHO) '        - t' >> META_new.yml
+	$(NOECHO) $(ECHO) '        - inc' >> META_new.yml
+	$(NOECHO) $(ECHO) 'generated_by:       ExtUtils::MakeMaker version 6.56' >> META_new.yml
+	$(NOECHO) $(ECHO) 'meta-spec:' >> META_new.yml
+	$(NOECHO) $(ECHO) '    url:      http://module-build.sourceforge.net/META-spec-v1.4.html' >> META_new.yml
+	$(NOECHO) $(ECHO) '    version:  1.4' >> META_new.yml
 	-$(NOECHO) $(MV) META_new.yml $(DISTVNAME)/META.yml
-	$(NOECHO) $(ECHO) Generating META.json
-	$(NOECHO) $(ECHO) '{' > META_new.json
-	$(NOECHO) $(ECHO) '   "abstract" : "Static analysis of Perl documents",' >> META_new.json
-	$(NOECHO) $(ECHO) '   "author" : [' >> META_new.json
-	$(NOECHO) $(ECHO) '      "Gregor Goldbach <glauschwuffel@nomaden.org>"' >> META_new.json
-	$(NOECHO) $(ECHO) '   ],' >> META_new.json
-	$(NOECHO) $(ECHO) '   "dynamic_config" : 1,' >> META_new.json
-	$(NOECHO) $(ECHO) '   "generated_by" : "ExtUtils::MakeMaker version 6.59, CPAN::Meta::Converter version 2.112150",' >> META_new.json
-	$(NOECHO) $(ECHO) '   "license" : [' >> META_new.json
-	$(NOECHO) $(ECHO) '      "perl_5"' >> META_new.json
-	$(NOECHO) $(ECHO) '   ],' >> META_new.json
-	$(NOECHO) $(ECHO) '   "meta-spec" : {' >> META_new.json
-	$(NOECHO) $(ECHO) '      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",' >> META_new.json
-	$(NOECHO) $(ECHO) '      "version" : "2"' >> META_new.json
-	$(NOECHO) $(ECHO) '   },' >> META_new.json
-	$(NOECHO) $(ECHO) '   "name" : "Perl-Analysis-Static",' >> META_new.json
-	$(NOECHO) $(ECHO) '   "no_index" : {' >> META_new.json
-	$(NOECHO) $(ECHO) '      "directory" : [' >> META_new.json
-	$(NOECHO) $(ECHO) '         "t",' >> META_new.json
-	$(NOECHO) $(ECHO) '         "inc"' >> META_new.json
-	$(NOECHO) $(ECHO) '      ]' >> META_new.json
-	$(NOECHO) $(ECHO) '   },' >> META_new.json
-	$(NOECHO) $(ECHO) '   "prereqs" : {' >> META_new.json
-	$(NOECHO) $(ECHO) '      "build" : {' >> META_new.json
-	$(NOECHO) $(ECHO) '         "requires" : {' >> META_new.json
-	$(NOECHO) $(ECHO) '            "ExtUtils::MakeMaker" : 0' >> META_new.json
-	$(NOECHO) $(ECHO) '         }' >> META_new.json
-	$(NOECHO) $(ECHO) '      },' >> META_new.json
-	$(NOECHO) $(ECHO) '      "configure" : {' >> META_new.json
-	$(NOECHO) $(ECHO) '         "requires" : {' >> META_new.json
-	$(NOECHO) $(ECHO) '            "ExtUtils::MakeMaker" : 0' >> META_new.json
-	$(NOECHO) $(ECHO) '         }' >> META_new.json
-	$(NOECHO) $(ECHO) '      },' >> META_new.json
-	$(NOECHO) $(ECHO) '      "runtime" : {' >> META_new.json
-	$(NOECHO) $(ECHO) '         "requires" : {' >> META_new.json
-	$(NOECHO) $(ECHO) '            "File::Next" : 0,' >> META_new.json
-	$(NOECHO) $(ECHO) '            "Getopt::Long" : 0,' >> META_new.json
-	$(NOECHO) $(ECHO) '            "IO::Interactive" : 0,' >> META_new.json
-	$(NOECHO) $(ECHO) '            "Module::List" : 0,' >> META_new.json
-	$(NOECHO) $(ECHO) '            "Module::Runtime" : 0,' >> META_new.json
-	$(NOECHO) $(ECHO) '            "Moose" : 0,' >> META_new.json
-	$(NOECHO) $(ECHO) '            "PPI" : 0,' >> META_new.json
-	$(NOECHO) $(ECHO) '            "Term::ANSIColor" : 0' >> META_new.json
-	$(NOECHO) $(ECHO) '         }' >> META_new.json
-	$(NOECHO) $(ECHO) '      }' >> META_new.json
-	$(NOECHO) $(ECHO) '   },' >> META_new.json
-	$(NOECHO) $(ECHO) '   "release_status" : "stable",' >> META_new.json
-	$(NOECHO) $(ECHO) '   "version" : "0.002"' >> META_new.json
-	$(NOECHO) $(ECHO) '}' >> META_new.json
-	-$(NOECHO) $(MV) META_new.json $(DISTVNAME)/META.json
 
 
 # --- MakeMaker signature section:
@@ -787,7 +735,7 @@ distdir : create_distdir distmeta
 
 # --- MakeMaker dist_test section:
 disttest : distdir
-	cd $(DISTVNAME) && $(ABSPERLRUN) Makefile.PL "INSTALL_BASE=/afs/dfn-cert.de/user/goldbach/"
+	cd $(DISTVNAME) && $(ABSPERLRUN) Makefile.PL "INSTALL_BASE=/home/yxa"
 	cd $(DISTVNAME) && $(MAKE) $(PASTHRU)
 	cd $(DISTVNAME) && $(MAKE) test $(PASTHRU)
 
@@ -804,12 +752,8 @@ ci :
 
 # --- MakeMaker distmeta section:
 distmeta : create_distdir metafile
-	$(NOECHO) cd $(DISTVNAME) && $(ABSPERLRUN) -MExtUtils::Manifest=maniadd -e 'exit unless -e q{META.yml};' \
-	  -e 'eval { maniadd({q{META.yml} => q{Module YAML meta-data (added by MakeMaker)}}) }' \
+	$(NOECHO) cd $(DISTVNAME) && $(ABSPERLRUN) -MExtUtils::Manifest=maniadd -e 'eval { maniadd({q{META.yml} => q{Module meta-data (added by MakeMaker)}}) } ' \
 	  -e '    or print "Could not add META.yml to MANIFEST: $${'\''@'\''}\n"' --
-	$(NOECHO) cd $(DISTVNAME) && $(ABSPERLRUN) -MExtUtils::Manifest=maniadd -e 'exit unless -f q{META.json};' \
-	  -e 'eval { maniadd({q{META.json} => q{Module JSON meta-data (added by MakeMaker)}}) }' \
-	  -e '    or print "Could not add META.json to MANIFEST: $${'\''@'\''}\n"' --
 
 
 
@@ -849,9 +793,7 @@ doc__install : doc_site_install
 	$(NOECHO) $(ECHO) INSTALLDIRS not defined, defaulting to INSTALLDIRS=site
 
 pure_perl_install :: all
-	$(NOECHO) $(MOD_INSTALL) \
-		read $(PERL_ARCHLIB)/auto/$(FULLEXT)/.packlist \
-		write $(DESTINSTALLARCHLIB)/auto/$(FULLEXT)/.packlist \
+	$(NOECHO) umask 022; $(MOD_INSTALL) \
 		$(INST_LIB) $(DESTINSTALLPRIVLIB) \
 		$(INST_ARCHLIB) $(DESTINSTALLARCHLIB) \
 		$(INST_BIN) $(DESTINSTALLBIN) \
@@ -863,7 +805,7 @@ pure_perl_install :: all
 
 
 pure_site_install :: all
-	$(NOECHO) $(MOD_INSTALL) \
+	$(NOECHO) umask 02; $(MOD_INSTALL) \
 		read $(SITEARCHEXP)/auto/$(FULLEXT)/.packlist \
 		write $(DESTINSTALLSITEARCH)/auto/$(FULLEXT)/.packlist \
 		$(INST_LIB) $(DESTINSTALLSITELIB) \
@@ -876,9 +818,7 @@ pure_site_install :: all
 		$(PERL_ARCHLIB)/auto/$(FULLEXT)
 
 pure_vendor_install :: all
-	$(NOECHO) $(MOD_INSTALL) \
-		read $(VENDORARCHEXP)/auto/$(FULLEXT)/.packlist \
-		write $(DESTINSTALLVENDORARCH)/auto/$(FULLEXT)/.packlist \
+	$(NOECHO) umask 022; $(MOD_INSTALL) \
 		$(INST_LIB) $(DESTINSTALLVENDORLIB) \
 		$(INST_ARCHLIB) $(DESTINSTALLVENDORARCH) \
 		$(INST_BIN) $(DESTINSTALLVENDORBIN) \
@@ -887,50 +827,31 @@ pure_vendor_install :: all
 		$(INST_MAN3DIR) $(DESTINSTALLVENDORMAN3DIR)
 
 doc_perl_install :: all
-	$(NOECHO) $(ECHO) Appending installation info to $(DESTINSTALLARCHLIB)/perllocal.pod
-	-$(NOECHO) $(MKPATH) $(DESTINSTALLARCHLIB)
-	-$(NOECHO) $(DOC_INSTALL) \
-		"Module" "$(NAME)" \
-		"installed into" "$(INSTALLPRIVLIB)" \
-		LINKTYPE "$(LINKTYPE)" \
-		VERSION "$(VERSION)" \
-		EXE_FILES "$(EXE_FILES)" \
-		>> $(DESTINSTALLARCHLIB)/perllocal.pod
 
 doc_site_install :: all
-	$(NOECHO) $(ECHO) Appending installation info to $(DESTINSTALLARCHLIB)/perllocal.pod
-	-$(NOECHO) $(MKPATH) $(DESTINSTALLARCHLIB)
-	-$(NOECHO) $(DOC_INSTALL) \
+	$(NOECHO) $(ECHO) Appending installation info to $(DESTINSTALLSITEARCH)/perllocal.pod
+	-$(NOECHO) umask 02; $(MKPATH) $(DESTINSTALLSITEARCH)
+	-$(NOECHO) umask 02; $(DOC_INSTALL) \
 		"Module" "$(NAME)" \
 		"installed into" "$(INSTALLSITELIB)" \
 		LINKTYPE "$(LINKTYPE)" \
 		VERSION "$(VERSION)" \
 		EXE_FILES "$(EXE_FILES)" \
-		>> $(DESTINSTALLARCHLIB)/perllocal.pod
+		>> $(DESTINSTALLSITEARCH)/perllocal.pod
 
 doc_vendor_install :: all
-	$(NOECHO) $(ECHO) Appending installation info to $(DESTINSTALLARCHLIB)/perllocal.pod
-	-$(NOECHO) $(MKPATH) $(DESTINSTALLARCHLIB)
-	-$(NOECHO) $(DOC_INSTALL) \
-		"Module" "$(NAME)" \
-		"installed into" "$(INSTALLVENDORLIB)" \
-		LINKTYPE "$(LINKTYPE)" \
-		VERSION "$(VERSION)" \
-		EXE_FILES "$(EXE_FILES)" \
-		>> $(DESTINSTALLARCHLIB)/perllocal.pod
 
 
 uninstall :: uninstall_from_$(INSTALLDIRS)dirs
 	$(NOECHO) $(NOOP)
 
 uninstall_from_perldirs ::
-	$(NOECHO) $(UNINSTALL) $(PERL_ARCHLIB)/auto/$(FULLEXT)/.packlist
 
 uninstall_from_sitedirs ::
 	$(NOECHO) $(UNINSTALL) $(SITEARCHEXP)/auto/$(FULLEXT)/.packlist
 
 uninstall_from_vendordirs ::
-	$(NOECHO) $(UNINSTALL) $(VENDORARCHEXP)/auto/$(FULLEXT)/.packlist
+
 
 
 # --- MakeMaker force section:
@@ -951,7 +872,7 @@ $(FIRST_MAKEFILE) : Makefile.PL $(CONFIGDEP)
 	-$(NOECHO) $(RM_F) $(MAKEFILE_OLD)
 	-$(NOECHO) $(MV)   $(FIRST_MAKEFILE) $(MAKEFILE_OLD)
 	- $(MAKE) $(USEMAKEFILE) $(MAKEFILE_OLD) clean $(DEV_NULL)
-	$(PERLRUN) Makefile.PL "INSTALL_BASE=/afs/dfn-cert.de/user/goldbach/"
+	$(PERLRUN) Makefile.PL "INSTALL_BASE=/home/yxa"
 	$(NOECHO) $(ECHO) "==> Your Makefile has been rebuilt. <=="
 	$(NOECHO) $(ECHO) "==> Please rerun the $(MAKE) command.  <=="
 	$(FALSE)
@@ -962,7 +883,7 @@ $(FIRST_MAKEFILE) : Makefile.PL $(CONFIGDEP)
 
 # --- MakeMaker makeaperl section ---
 MAP_TARGET    = perl
-FULLPERL      = /scratch/goldbach/inst/perlbrew/perls/perl-5.8.8/bin/perl
+FULLPERL      = /usr/bin/perl
 
 $(MAP_TARGET) :: static $(MAKE_APERL_FILE)
 	$(MAKE) $(USEMAKEFILE) $(MAKE_APERL_FILE) $@
@@ -973,7 +894,7 @@ $(MAKE_APERL_FILE) : $(FIRST_MAKEFILE) pm_to_blib
 		Makefile.PL DIR= \
 		MAKEFILE=$(MAKE_APERL_FILE) LINKTYPE=static \
 		MAKEAPERL=1 NORECURS=1 CCCDLFLAGS= \
-		INSTALL_BASE=/afs/dfn-cert.de/user/goldbach/
+		INSTALL_BASE=/home/yxa
 
 
 # --- MakeMaker test section:
@@ -1019,7 +940,7 @@ ppd :
 	$(NOECHO) $(ECHO) '        <REQUIRE NAME="Moose::" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <REQUIRE NAME="PPI::" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <REQUIRE NAME="Term::ANSIColor" />' >> $(DISTNAME).ppd
-	$(NOECHO) $(ECHO) '        <ARCHITECTURE NAME="x86_64-linux-5.8" />' >> $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '        <ARCHITECTURE NAME="i686-linux-gnu-thread-multi-64int-5.12" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <CODEBASE HREF="" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    </IMPLEMENTATION>' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '</SOFTPKG>' >> $(DISTNAME).ppd
@@ -1029,22 +950,22 @@ ppd :
 
 pm_to_blib : $(FIRST_MAKEFILE) $(TO_INST_PM)
 	$(NOECHO) $(ABSPERLRUN) -MExtUtils::Install -e 'pm_to_blib({@ARGV}, '\''$(INST_LIB)/auto'\'', q[$(PM_FILTER)], '\''$(PERM_DIR)'\'')' -- \
-	  lib/Perl/Analysis/Static/Filter/Range.pm blib/lib/Perl/Analysis/Static/Filter/Range.pm \
 	  lib/Perl/Analysis/Static/Filter/Name.pm blib/lib/Perl/Analysis/Static/Filter/Name.pm \
+	  lib/Perl/Analysis/Static/Filter/Range.pm blib/lib/Perl/Analysis/Static/Filter/Range.pm \
 	  lib/Perl/Analysis/Static/Element/String.pm blib/lib/Perl/Analysis/Static/Element/String.pm \
 	  lib/Perl/Analysis/Static/Filter.pm blib/lib/Perl/Analysis/Static/Filter.pm \
 	  lib/Perl/Analysis/Static/Document.pm blib/lib/Perl/Analysis/Static/Document.pm \
-	  lib/Perl/Analysis/Static/Question/Lexical/Name.pm blib/lib/Perl/Analysis/Static/Question/Lexical/Name.pm \
-	  lib/Perl/Analysis/Static/Filter/StringLike.pm blib/lib/Perl/Analysis/Static/Filter/StringLike.pm \
 	  lib/Perl/Analysis/Static/Analysis/Block.pm blib/lib/Perl/Analysis/Static/Analysis/Block.pm \
+	  lib/Perl/Analysis/Static/Filter/StringLike.pm blib/lib/Perl/Analysis/Static/Filter/StringLike.pm \
+	  lib/Perl/Analysis/Static/Question/Lexical/Name.pm blib/lib/Perl/Analysis/Static/Question/Lexical/Name.pm \
 	  lib/Perl/Analysis/Static/Element/Lexical.pm blib/lib/Perl/Analysis/Static/Element/Lexical.pm \
 	  lib/Perl/Analysis/Static/Element.pm blib/lib/Perl/Analysis/Static/Element.pm \
-	  lib/Perl/Analysis/Static/Question/String.pm blib/lib/Perl/Analysis/Static/Question/String.pm \
 	  lib/Perl/Analysis/Static/Analysis/String.pm blib/lib/Perl/Analysis/Static/Analysis/String.pm \
+	  lib/Perl/Analysis/Static/Question/String.pm blib/lib/Perl/Analysis/Static/Question/String.pm \
 	  lib/App/Perlanalyst.pm blib/lib/App/Perlanalyst.pm \
 	  lib/Perl/Analysis/Static/Question/Lexical/NameLike.pm blib/lib/Perl/Analysis/Static/Question/Lexical/NameLike.pm \
-	  lib/Perl/Analysis/Static/Question/Sub/NameLike.pm blib/lib/Perl/Analysis/Static/Question/Sub/NameLike.pm \
 	  lib/Perl/Analysis/Static/Analysis/Use.pm blib/lib/Perl/Analysis/Static/Analysis/Use.pm \
+	  lib/Perl/Analysis/Static/Question/Sub/NameLike.pm blib/lib/Perl/Analysis/Static/Question/Sub/NameLike.pm \
 	  lib/Perl/Analysis/Static/Element/Use.pm blib/lib/Perl/Analysis/Static/Element/Use.pm \
 	  lib/Perl/Analysis/Static/Filter/String.pm blib/lib/Perl/Analysis/Static/Filter/String.pm \
 	  lib/Perl/Analysis/Static/Filter/NameLike.pm blib/lib/Perl/Analysis/Static/Filter/NameLike.pm \
@@ -1052,11 +973,11 @@ pm_to_blib : $(FIRST_MAKEFILE) $(TO_INST_PM)
 	  lib/Perl/Analysis/Static/Element/Block.pm blib/lib/Perl/Analysis/Static/Element/Block.pm \
 	  lib/Perl/Analysis/Static/Analysis.pm blib/lib/Perl/Analysis/Static/Analysis.pm \
 	  lib/Perl/Analysis/Static/Question.pm blib/lib/Perl/Analysis/Static/Question.pm \
-	  lib/Perl/Analysis/Static/Files.pm blib/lib/Perl/Analysis/Static/Files.pm \
 	  lib/Perl/Analysis/Static/Analysis/Sub.pm blib/lib/Perl/Analysis/Static/Analysis/Sub.pm \
+	  lib/Perl/Analysis/Static/Files.pm blib/lib/Perl/Analysis/Static/Files.pm \
 	  lib/Perl/Analysis/Static/Question/Sub/Name.pm blib/lib/Perl/Analysis/Static/Question/Sub/Name.pm \
-	  lib/Perl/Analysis/Static/Question/StringLike.pm blib/lib/Perl/Analysis/Static/Question/StringLike.pm \
-	  lib/Perl/Analysis/Static/Analysis/Lexical.pm blib/lib/Perl/Analysis/Static/Analysis/Lexical.pm 
+	  lib/Perl/Analysis/Static/Analysis/Lexical.pm blib/lib/Perl/Analysis/Static/Analysis/Lexical.pm \
+	  lib/Perl/Analysis/Static/Question/StringLike.pm blib/lib/Perl/Analysis/Static/Question/StringLike.pm 
 	$(NOECHO) $(TOUCH) pm_to_blib
 
 

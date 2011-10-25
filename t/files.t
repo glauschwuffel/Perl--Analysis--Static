@@ -4,16 +4,17 @@ use strict;
 use warnings;
 
 use Test::More 'no_plan';
-use Test::Deep;
+use Test::Differences;
 
 BEGIN {
     use_ok('Perl::Analysis::Static::Files');
 }
 
 my $dir='t/';
-my @got = Perl::Analysis::Static::Files::files($dir);
+my @got = sort {$a cmp $b} Perl::Analysis::Static::Files::files($dir);
 
-my @expected = qw(t/blocks.t
+my @expected = qw(
+t/blocks.t
 t/data/lexicals_and_blocks.pl
 t/data/strings.pl
 t/data/subs.pl
@@ -30,6 +31,5 @@ t/subs.t
 t/use.t
 );
 
-is_deeply( \@got, \@expected );
+eq_or_diff( \@got, \@expected );
 
-# use Data::Dumper;print Dumper(\@got);

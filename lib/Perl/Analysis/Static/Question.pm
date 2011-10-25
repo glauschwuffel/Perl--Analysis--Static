@@ -2,9 +2,12 @@ package Perl::Analysis::Static::Question;
 
 =head2 NAME
 
-Perl::Analysis::Static::Question --
+Perl::Analysis::Static::Question -- Base class for questions
 
 =head2 DESCRIPTION
+
+A question combines searches for elements and filters.
+This is the base class.
 
 =cut
 
@@ -20,8 +23,13 @@ has 'class'     => ( is => 'rw', isa => 'Str' );
 has 'filter'    => ( is => 'rw', isa => 'ArrayRef[Str]' );
 has 'arguments' => ( is => 'rw', isa => 'ArrayRef[Str]' );
 
-=head2 ask ($elements)
+=head2 ask ($files)
 
+Asks the question for a list of files.
+
+Arguments: reference to list of files.
+
+Result: Reference to hash with the answers keyed by the filename.
 
 =cut
 
@@ -95,5 +103,18 @@ sub _ask_for_file {
 	# filter the elements if we have to
 	return $self->_filter($elements) if $self->{filter};
 }
+
+=head1 AUTHOR
+
+Gregor Goldbach, glauschwuffel@nomaden.org
+
+=head1 COPYRIGHT & LICENSE
+
+Copyright 2011 Gregor Goldbach
+
+This program is free software; you can redistribute it and/or modify it
+under the terms of the Artistic License v2.0.
+
+=cut
 
 1;

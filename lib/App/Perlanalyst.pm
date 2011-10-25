@@ -1,5 +1,16 @@
 package App::Perlanalyst;
 
+=head1 NAME
+
+App::Perlanalyst -- main package for the perlanalyst tool
+
+=head1 DESCRIPTION
+
+This package implements the class App::Perlanalyst which acts like
+a driver for everything else.
+
+=cut
+
 use strict;
 use warnings;
 
@@ -14,6 +25,9 @@ use Term::ANSIColor qw(colored);
 use Perl::Analysis::Static::Document;
 use Perl::Analysis::Static::Question;
 use Perl::Analysis::Static::Files;
+
+our $VERSION='0.002';
+our $COPYRIGHT='Copyright 2011 Gregor Goldbach.';
 
 =head2 new
 
@@ -42,12 +56,18 @@ sub process_args {
             'f|filter=s'             => \@{ $self->{filter} },
             'F|filter-arguments=s'   => \@{ $self->{filter_arguments} },
             'h|help|?'               => \$self->{show_help},
+            'man'                    => sub {
+                                          require Pod::Usage;
+                                          Pod::Usage::pod2usage({-verbose => 2});
+                                          exit;
+                                        },
             'q|question=s'           => \$self->{question},
             'Q|question-arguments=s' => \$self->{question_arguments},
             'v|verbose!'             => \$self->{verbose},
             'list-analyses!'         => \$self->{list_analyses},
             'list-filters!'   => \$self->{list_filters},
-            'list-questions!' => \$self->{list_questions}
+            'list-questions!' => \$self->{list_questions},
+            'version' => \$self->{show_version}
         ) or App::Perlanalyst::die('Unable to parse options');
 
         # Stash the remainder of argv for later
@@ -57,6 +77,9 @@ sub process_args {
 
 sub run {
     my ($self) = @_;
+
+    return show_version() if $self->{show_version};
+    return show_help() if $self->{show_help};
 
     return $self->_list_analyses() if $self->{list_analyses};
     return $self->_list_filters() if $self->{list_filters};
@@ -73,7 +96,9 @@ sub run {
     }
 
     # there is neither an analysis or a question ...
-    App::Perlanalyst::die('What am I supposed to do?');
+    return show_help();
+
+
 }
 
 # stolen from von App::Ack
@@ -99,6 +124,47 @@ sub analyse {
     my $answer = $question->ask( $self->_files );
 
     return $self->_print_answer($answer);
+}
+
+=head2 show_help()
+
+Dumps the help page to the user.
+
+=cut
+
+sub show_help {
+    print( <<"END_OF_HELP" );
+Usage: perlanalyst [OPTION]... [FILES]...
+
+Analyse your Perl documents in the tree from the current directory on down.
+If [FILES] is specified, then only those files/directories are checked.
+
+Examples: perlanalyst --all Sub
+
+Analyses:
+  --analysis            Specify what analysis to run.
+  --list-analyses       List all analyses that may be run.
+Filtering:
+  --filter              Specify what filter to run on the list of elements found.
+                        May be specified more than once.
+  --filter-argument     Give arguments for the filter.
+                        May be specified more than once.
+  --list-filters        List all filters that may be used.
+
+Questions:
+  --question            Specify what question to ask.
+  --question-argument   Give arguments for the filter implied by the question.
+                        May be specified more than once.
+  --list-questions      List all questions that may be called.
+
+Miscellaneous:
+  --help                This help
+  --man                 man page
+  --version             Display version & copyright
+
+This is version $VERSION of the perlanalyst.
+END_OF_HELP
+    return;
 }
 
 =head2 _files (	)
@@ -257,5 +323,47 @@ sub _list_questions {
 
     return $self->_list_modules( 'Question', 'questions' );
 }
+
+# stolen from App::Ack's get_version_statement
+=head2 show_version
+
+Returns the version information for perlanalyst.
+
+=cut
+
+sub show_version {
+    require Config;
+
+    my $copyright = $COPYRIGHT;
+    my $this_perl = $Config::Config{perlpath};
+    if ($^O ne 'VMS') {
+        my $ext = $Config::Config{_exe};
+        $this_perl .= $ext unless $this_perl =~ m/$ext$/i;
+    }
+    my $ver = sprintf( '%vd', $^V );
+
+    print <<"END_OF_VERSION";
+perlanalyst $VERSION
+Running under Perl $ver at $this_perl
+
+$copyright
+
+This program is free software; you can redistribute it and/or modify it
+under the terms of the Artistic License v2.0.
+END_OF_VERSION
+}
+
+=head1 AUTHOR
+
+Gregor Goldbach, glauschwuffel@nomaden.org
+
+=head1 COPYRIGHT & LICENSE
+
+Copyright 2011 Gregor Goldbach
+
+This program is free software; you can redistribute it and/or modify it
+under the terms of the Artistic License v2.0.
+
+=cut
 
 1;
