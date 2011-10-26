@@ -21,9 +21,11 @@ requires:
   File::Next: 0
   Getopt::Long: 0
   IO::Interactive: 0
+  List::Util: 0
   Module::List: 0
   Module::Runtime: 0
   Moose: 0
   PPI: 0
   Term::ANSIColor: 0
+  Term::ProgressBar::Simple: 0
 version: 0.002

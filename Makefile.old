@@ -6,7 +6,7 @@
 #
 #       ANY CHANGES MADE HERE WILL BE LOST!
 #
-#   MakeMaker ARGV: (q[INSTALL_BASE=/afs/dfn-cert.de/user/goldbach/])
+#   MakeMaker ARGV: (q[INSTALL_BASE=/afs/dfn-cert.de/user/goldbach])
 #
 
 #   MakeMaker Parameters:
@@ -19,7 +19,7 @@
 #     LICENSE => q[perl]
 #     NAME => q[Perl::Analysis::Static]
 #     PREREQ_FATAL => q[1]
-#     PREREQ_PM => { PPI=>q[0], Getopt::Long=>q[0], Term::ANSIColor=>q[0], File::Next=>q[0], Module::Runtime=>q[0], Moose=>q[0], IO::Interactive=>q[0] }
+#     PREREQ_PM => { PPI=>q[0], Getopt::Long=>q[0], Term::ANSIColor=>q[0], Module::List=>q[0], Module::Runtime=>q[0], File::Next=>q[0], IO::Interactive=>q[0], Moose=>q[0] }
 #     VERSION => q[0.002]
 
 # --- MakeMaker post_initialize section:
@@ -75,7 +75,7 @@ INST_MAN3DIR = blib/man3
 MAN1EXT = 1
 MAN3EXT = 3
 INSTALLDIRS = site
-INSTALL_BASE = /afs/dfn-cert.de/user/goldbach/
+INSTALL_BASE = /afs/dfn-cert.de/user/goldbach
 DESTDIR = 
 PREFIX = $(INSTALL_BASE)
 INSTALLPRIVLIB = $(INSTALL_BASE)/lib/perl5
@@ -169,11 +169,18 @@ MAN3PODS = lib/App/Perlanalyst.pm \
 	lib/Perl/Analysis/Static/Analysis/Sub.pm \
 	lib/Perl/Analysis/Static/Analysis/Use.pm \
 	lib/Perl/Analysis/Static/Document.pm \
+	lib/Perl/Analysis/Static/Element.pm \
+	lib/Perl/Analysis/Static/Element/Block.pm \
 	lib/Perl/Analysis/Static/Element/Lexical.pm \
 	lib/Perl/Analysis/Static/Element/String.pm \
 	lib/Perl/Analysis/Static/Element/Sub.pm \
 	lib/Perl/Analysis/Static/Element/Use.pm \
+	lib/Perl/Analysis/Static/Files.pm \
 	lib/Perl/Analysis/Static/Filter.pm \
+	lib/Perl/Analysis/Static/Filter/Name.pm \
+	lib/Perl/Analysis/Static/Filter/NameLike.pm \
+	lib/Perl/Analysis/Static/Filter/String.pm \
+	lib/Perl/Analysis/Static/Filter/StringLike.pm \
 	lib/Perl/Analysis/Static/Question.pm \
 	lib/Perl/Analysis/Static/Question/Lexical/Name.pm \
 	lib/Perl/Analysis/Static/Question/Lexical/NameLike.pm \
@@ -265,10 +272,10 @@ PM_TO_BLIB = lib/Perl/Analysis/Static/Filter/Range.pm \
 	blib/lib/Perl/Analysis/Static/Analysis/Use.pm \
 	lib/Perl/Analysis/Static/Element/Use.pm \
 	blib/lib/Perl/Analysis/Static/Element/Use.pm \
-	lib/Perl/Analysis/Static/Filter/NameLike.pm \
-	blib/lib/Perl/Analysis/Static/Filter/NameLike.pm \
 	lib/Perl/Analysis/Static/Filter/String.pm \
 	blib/lib/Perl/Analysis/Static/Filter/String.pm \
+	lib/Perl/Analysis/Static/Filter/NameLike.pm \
+	blib/lib/Perl/Analysis/Static/Filter/NameLike.pm \
 	lib/Perl/Analysis/Static/Element/Sub.pm \
 	blib/lib/Perl/Analysis/Static/Element/Sub.pm \
 	lib/Perl/Analysis/Static/Element/Block.pm \
@@ -510,12 +517,15 @@ POD2MAN = $(POD2MAN_EXE)
 
 manifypods : pure_all  \
 	scripts/perlanalyst \
+	lib/Perl/Analysis/Static/Filter/Name.pm \
 	lib/Perl/Analysis/Static/Element/String.pm \
 	lib/Perl/Analysis/Static/Filter.pm \
 	lib/Perl/Analysis/Static/Document.pm \
 	lib/Perl/Analysis/Static/Question/Lexical/Name.pm \
+	lib/Perl/Analysis/Static/Filter/StringLike.pm \
 	lib/Perl/Analysis/Static/Analysis/Block.pm \
 	lib/Perl/Analysis/Static/Element/Lexical.pm \
+	lib/Perl/Analysis/Static/Element.pm \
 	lib/Perl/Analysis/Static/Question/String.pm \
 	lib/Perl/Analysis/Static/Analysis/String.pm \
 	lib/App/Perlanalyst.pm \
@@ -523,9 +533,13 @@ manifypods : pure_all  \
 	lib/Perl/Analysis/Static/Question/Sub/NameLike.pm \
 	lib/Perl/Analysis/Static/Analysis/Use.pm \
 	lib/Perl/Analysis/Static/Element/Use.pm \
+	lib/Perl/Analysis/Static/Filter/String.pm \
+	lib/Perl/Analysis/Static/Filter/NameLike.pm \
 	lib/Perl/Analysis/Static/Element/Sub.pm \
+	lib/Perl/Analysis/Static/Element/Block.pm \
 	lib/Perl/Analysis/Static/Analysis.pm \
 	lib/Perl/Analysis/Static/Question.pm \
+	lib/Perl/Analysis/Static/Files.pm \
 	lib/Perl/Analysis/Static/Analysis/Sub.pm \
 	lib/Perl/Analysis/Static/Question/Sub/Name.pm \
 	lib/Perl/Analysis/Static/Question/StringLike.pm \
@@ -533,12 +547,15 @@ manifypods : pure_all  \
 	$(NOECHO) $(POD2MAN) --section=1 --perm_rw=$(PERM_RW) \
 	  scripts/perlanalyst $(INST_MAN1DIR)/perlanalyst.$(MAN1EXT) 
 	$(NOECHO) $(POD2MAN) --section=3 --perm_rw=$(PERM_RW) \
+	  lib/Perl/Analysis/Static/Filter/Name.pm $(INST_MAN3DIR)/Perl::Analysis::Static::Filter::Name.$(MAN3EXT) \
 	  lib/Perl/Analysis/Static/Element/String.pm $(INST_MAN3DIR)/Perl::Analysis::Static::Element::String.$(MAN3EXT) \
 	  lib/Perl/Analysis/Static/Filter.pm $(INST_MAN3DIR)/Perl::Analysis::Static::Filter.$(MAN3EXT) \
 	  lib/Perl/Analysis/Static/Document.pm $(INST_MAN3DIR)/Perl::Analysis::Static::Document.$(MAN3EXT) \
 	  lib/Perl/Analysis/Static/Question/Lexical/Name.pm $(INST_MAN3DIR)/Perl::Analysis::Static::Question::Lexical::Name.$(MAN3EXT) \
+	  lib/Perl/Analysis/Static/Filter/StringLike.pm $(INST_MAN3DIR)/Perl::Analysis::Static::Filter::StringLike.$(MAN3EXT) \
 	  lib/Perl/Analysis/Static/Analysis/Block.pm $(INST_MAN3DIR)/Perl::Analysis::Static::Analysis::Block.$(MAN3EXT) \
 	  lib/Perl/Analysis/Static/Element/Lexical.pm $(INST_MAN3DIR)/Perl::Analysis::Static::Element::Lexical.$(MAN3EXT) \
+	  lib/Perl/Analysis/Static/Element.pm $(INST_MAN3DIR)/Perl::Analysis::Static::Element.$(MAN3EXT) \
 	  lib/Perl/Analysis/Static/Question/String.pm $(INST_MAN3DIR)/Perl::Analysis::Static::Question::String.$(MAN3EXT) \
 	  lib/Perl/Analysis/Static/Analysis/String.pm $(INST_MAN3DIR)/Perl::Analysis::Static::Analysis::String.$(MAN3EXT) \
 	  lib/App/Perlanalyst.pm $(INST_MAN3DIR)/App::Perlanalyst.$(MAN3EXT) \
@@ -546,11 +563,16 @@ manifypods : pure_all  \
 	  lib/Perl/Analysis/Static/Question/Sub/NameLike.pm $(INST_MAN3DIR)/Perl::Analysis::Static::Question::Sub::NameLike.$(MAN3EXT) \
 	  lib/Perl/Analysis/Static/Analysis/Use.pm $(INST_MAN3DIR)/Perl::Analysis::Static::Analysis::Use.$(MAN3EXT) \
 	  lib/Perl/Analysis/Static/Element/Use.pm $(INST_MAN3DIR)/Perl::Analysis::Static::Element::Use.$(MAN3EXT) \
+	  lib/Perl/Analysis/Static/Filter/String.pm $(INST_MAN3DIR)/Perl::Analysis::Static::Filter::String.$(MAN3EXT) \
+	  lib/Perl/Analysis/Static/Filter/NameLike.pm $(INST_MAN3DIR)/Perl::Analysis::Static::Filter::NameLike.$(MAN3EXT) \
 	  lib/Perl/Analysis/Static/Element/Sub.pm $(INST_MAN3DIR)/Perl::Analysis::Static::Element::Sub.$(MAN3EXT) \
+	  lib/Perl/Analysis/Static/Element/Block.pm $(INST_MAN3DIR)/Perl::Analysis::Static::Element::Block.$(MAN3EXT) \
 	  lib/Perl/Analysis/Static/Analysis.pm $(INST_MAN3DIR)/Perl::Analysis::Static::Analysis.$(MAN3EXT) \
 	  lib/Perl/Analysis/Static/Question.pm $(INST_MAN3DIR)/Perl::Analysis::Static::Question.$(MAN3EXT) \
+	  lib/Perl/Analysis/Static/Files.pm $(INST_MAN3DIR)/Perl::Analysis::Static::Files.$(MAN3EXT) \
 	  lib/Perl/Analysis/Static/Analysis/Sub.pm $(INST_MAN3DIR)/Perl::Analysis::Static::Analysis::Sub.$(MAN3EXT) \
-	  lib/Perl/Analysis/Static/Question/Sub/Name.pm $(INST_MAN3DIR)/Perl::Analysis::Static::Question::Sub::Name.$(MAN3EXT) \
+	  lib/Perl/Analysis/Static/Question/Sub/Name.pm $(INST_MAN3DIR)/Perl::Analysis::Static::Question::Sub::Name.$(MAN3EXT) 
+	$(NOECHO) $(POD2MAN) --section=3 --perm_rw=$(PERM_RW) \
 	  lib/Perl/Analysis/Static/Question/StringLike.pm $(INST_MAN3DIR)/Perl::Analysis::Static::Question::StringLike.$(MAN3EXT) \
 	  lib/Perl/Analysis/Static/Analysis/Lexical.pm $(INST_MAN3DIR)/Perl::Analysis::Static::Analysis::Lexical.$(MAN3EXT) 
 
@@ -656,6 +678,7 @@ metafile : create_distdir
 	$(NOECHO) $(ECHO) '  File::Next: 0' >> META_new.yml
 	$(NOECHO) $(ECHO) '  Getopt::Long: 0' >> META_new.yml
 	$(NOECHO) $(ECHO) '  IO::Interactive: 0' >> META_new.yml
+	$(NOECHO) $(ECHO) '  Module::List: 0' >> META_new.yml
 	$(NOECHO) $(ECHO) '  Module::Runtime: 0' >> META_new.yml
 	$(NOECHO) $(ECHO) '  Moose: 0' >> META_new.yml
 	$(NOECHO) $(ECHO) '  PPI: 0' >> META_new.yml
@@ -700,6 +723,7 @@ metafile : create_distdir
 	$(NOECHO) $(ECHO) '            "File::Next" : 0,' >> META_new.json
 	$(NOECHO) $(ECHO) '            "Getopt::Long" : 0,' >> META_new.json
 	$(NOECHO) $(ECHO) '            "IO::Interactive" : 0,' >> META_new.json
+	$(NOECHO) $(ECHO) '            "Module::List" : 0,' >> META_new.json
 	$(NOECHO) $(ECHO) '            "Module::Runtime" : 0,' >> META_new.json
 	$(NOECHO) $(ECHO) '            "Moose" : 0,' >> META_new.json
 	$(NOECHO) $(ECHO) '            "PPI" : 0,' >> META_new.json
@@ -785,7 +809,7 @@ distdir : create_distdir distmeta
 
 # --- MakeMaker dist_test section:
 disttest : distdir
-	cd $(DISTVNAME) && $(ABSPERLRUN) Makefile.PL "INSTALL_BASE=/afs/dfn-cert.de/user/goldbach/"
+	cd $(DISTVNAME) && $(ABSPERLRUN) Makefile.PL "INSTALL_BASE=/afs/dfn-cert.de/user/goldbach"
 	cd $(DISTVNAME) && $(MAKE) $(PASTHRU)
 	cd $(DISTVNAME) && $(MAKE) test $(PASTHRU)
 
@@ -949,7 +973,7 @@ $(FIRST_MAKEFILE) : Makefile.PL $(CONFIGDEP)
 	-$(NOECHO) $(RM_F) $(MAKEFILE_OLD)
 	-$(NOECHO) $(MV)   $(FIRST_MAKEFILE) $(MAKEFILE_OLD)
 	- $(MAKE) $(USEMAKEFILE) $(MAKEFILE_OLD) clean $(DEV_NULL)
-	$(PERLRUN) Makefile.PL "INSTALL_BASE=/afs/dfn-cert.de/user/goldbach/"
+	$(PERLRUN) Makefile.PL "INSTALL_BASE=/afs/dfn-cert.de/user/goldbach"
 	$(NOECHO) $(ECHO) "==> Your Makefile has been rebuilt. <=="
 	$(NOECHO) $(ECHO) "==> Please rerun the $(MAKE) command.  <=="
 	$(FALSE)
@@ -971,7 +995,7 @@ $(MAKE_APERL_FILE) : $(FIRST_MAKEFILE) pm_to_blib
 		Makefile.PL DIR= \
 		MAKEFILE=$(MAKE_APERL_FILE) LINKTYPE=static \
 		MAKEAPERL=1 NORECURS=1 CCCDLFLAGS= \
-		INSTALL_BASE=/afs/dfn-cert.de/user/goldbach/
+		INSTALL_BASE=/afs/dfn-cert.de/user/goldbach
 
 
 # --- MakeMaker test section:
@@ -1012,6 +1036,7 @@ ppd :
 	$(NOECHO) $(ECHO) '        <REQUIRE NAME="File::Next" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <REQUIRE NAME="Getopt::Long" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <REQUIRE NAME="IO::Interactive" />' >> $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '        <REQUIRE NAME="Module::List" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <REQUIRE NAME="Module::Runtime" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <REQUIRE NAME="Moose::" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <REQUIRE NAME="PPI::" />' >> $(DISTNAME).ppd
@@ -1043,8 +1068,8 @@ pm_to_blib : $(FIRST_MAKEFILE) $(TO_INST_PM)
 	  lib/Perl/Analysis/Static/Question/Sub/NameLike.pm blib/lib/Perl/Analysis/Static/Question/Sub/NameLike.pm \
 	  lib/Perl/Analysis/Static/Analysis/Use.pm blib/lib/Perl/Analysis/Static/Analysis/Use.pm \
 	  lib/Perl/Analysis/Static/Element/Use.pm blib/lib/Perl/Analysis/Static/Element/Use.pm \
-	  lib/Perl/Analysis/Static/Filter/NameLike.pm blib/lib/Perl/Analysis/Static/Filter/NameLike.pm \
 	  lib/Perl/Analysis/Static/Filter/String.pm blib/lib/Perl/Analysis/Static/Filter/String.pm \
+	  lib/Perl/Analysis/Static/Filter/NameLike.pm blib/lib/Perl/Analysis/Static/Filter/NameLike.pm \
 	  lib/Perl/Analysis/Static/Element/Sub.pm blib/lib/Perl/Analysis/Static/Element/Sub.pm \
 	  lib/Perl/Analysis/Static/Element/Block.pm blib/lib/Perl/Analysis/Static/Element/Block.pm \
 	  lib/Perl/Analysis/Static/Analysis.pm blib/lib/Perl/Analysis/Static/Analysis.pm \

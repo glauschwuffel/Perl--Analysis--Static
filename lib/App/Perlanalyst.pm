@@ -18,16 +18,18 @@ use Cwd;
 use English qw( -no_match_vars );    # Avoids regex performance penalty
 use Getopt::Long;
 use IO::Interactive qw(is_interactive);
-use Module::Runtime qw(use_module);
+use List::Util qw(sum);
 use Module::List qw(list_modules);
+use Module::Runtime qw(use_module);
 use Term::ANSIColor qw(colored);
+use Term::ProgressBar::Simple;
 
-use Perl::Analysis::Static::Document;
 use Perl::Analysis::Static::Question;
+use Perl::Analysis::Static::Document;
 use Perl::Analysis::Static::Files;
 
-our $VERSION='0.002';
-our $COPYRIGHT='Copyright 2011 Gregor Goldbach.';
+our $VERSION   = '0.002';
+our $COPYRIGHT = 'Copyright 2011 Gregor Goldbach.';
 
 =head2 new
 
@@ -52,21 +54,21 @@ sub process_args {
 
         # Don't add coderefs to GetOptions
         GetOptions(
-            'a|analysis|all=s'       => \$self->{analysis},
-            'f|filter=s'             => \@{ $self->{filter} },
-            'h|help|?'               => \$self->{show_help},
-            'man'                    => sub {
-                                          require Pod::Usage;
-                                          Pod::Usage::pod2usage({-verbose => 2});
-                                          exit;
-                                        },
+            'a|analysis|all=s' => \$self->{analysis},
+            'f|filter=s'       => \@{ $self->{filter} },
+            'h|help|?'         => \$self->{show_help},
+            'man'              => sub {
+                require Pod::Usage;
+                Pod::Usage::pod2usage( { -verbose => 2 } );
+                exit;
+            },
             'q|question=s'           => \$self->{question},
             'Q|question-arguments=s' => \$self->{question_arguments},
             'v|verbose!'             => \$self->{verbose},
             'list-analyses!'         => \$self->{list_analyses},
-            'list-filters!'   => \$self->{list_filters},
-            'list-questions!' => \$self->{list_questions},
-            'version' => \$self->{show_version}
+            'list-filters!'          => \$self->{list_filters},
+            'list-questions!'        => \$self->{list_questions},
+            'version'                => \$self->{show_version}
         ) or App::Perlanalyst::die('Unable to parse options');
 
         # Stash the remainder of argv for later
@@ -77,30 +79,36 @@ sub process_args {
 sub run {
     my ($self) = @_;
 
+    # Show version or help?
     return show_version() if $self->{show_version};
-    return show_help() if $self->{show_help};
+    return show_help()    if $self->{show_help};
 
-    return $self->_list_analyses() if $self->{list_analyses};
-    return $self->_list_filters() if $self->{list_filters};
+    # List what we can do?
+    return $self->_list_analyses()  if $self->{list_analyses};
+    return $self->_list_filters()   if $self->{list_filters};
     return $self->_list_questions() if $self->{list_questions};
 
+    # No, so we will ask a question. What files do we have?
+    $self->{files} = $self->_files();
+
+    # There is neither an analysis or a question ...
+    return show_help() unless $self->{analysis} or $self->{question};
+
+    # Setup or nice progress bar based on the file sizes
+    $self->_setup_progress_bar();
+    
+    # Just run an analysis if we're told to do so.
     if ( $self->{analysis} ) {
         return $self->analyse() if $self->{analysis};
     }
 
-    # ask questions if specified
+    # No analysis wanted, shall we run a question?
     if ( $self->{question} ) {
-        my $answer = $self->_ask_question( $self->_files() );
-        return $self->_print_answer($answer);
+        return $self->_ask_question();
     }
-
-    # there is neither an analysis or a question ...
-    return show_help();
-
-
 }
 
-# stolen from von App::Ack
+# stolen from App::Ack
 sub die {
     my $program = File::Basename::basename($0);
     return CORE::die( $program, ': ', @_, "\n" );
@@ -116,19 +124,25 @@ sub analyse {
 
     my @filters;
     my @arguments;
-    for my $filter (@{$self->{filter}}) {
+    for my $filter ( @{ $self->{filter} } ) {
         # split filter and arguments
-        my ($f, $args)=split(/=/, $filter);
+        my ( $f, $args ) = split( /=/, $filter );
 
-        push @filters, $f;
+        push @filters,   $f;
         push @arguments, $args;
     }
 
     my $question = Perl::Analysis::Static::Question->new(
-      class => $element_class,
-      filter => \@filters,
-      arguments => \@arguments);
-    my $answer = $question->ask( $self->_files );
+        class     => $element_class,
+        filter    => \@filters,
+        arguments => \@arguments
+    );
+
+    my $answer;
+    for my $file ( @{ $self->{files} } ) {
+        $answer->{$file} = $question->ask($file);
+        $self->_increment_progress_bar($file);
+    }
 
     return $self->_print_answer($answer);
 }
@@ -172,6 +186,29 @@ Miscellaneous:
 This is version $VERSION of the perlanalyst.
 END_OF_HELP
     return;
+}
+
+=head2 _setup_progress_bar (	)
+
+=cut
+
+sub _setup_progress_bar {
+    my ($self) = @_;
+    
+    # we expect the time of an analyses to be a function of the
+    # file's size
+    my $total_size = sum map { -s } @{ $self->{files} };
+    my $params = {
+        name            => 'Files',
+        count           => $total_size
+    };
+
+    $self->{progress_bar} = Term::ProgressBar::Simple->new($params);
+}
+
+sub _increment_progress_bar {
+    my ($self, $file) = @_;
+    $self->{progress_bar}->increment(-s $file);
 }
 
 =head2 _files (	)
@@ -237,10 +274,10 @@ sub _ask_question {
     my ($self) = @_;
 
     my $q = $self->{question};
-    my ($question_class, $args)=split(/=/, $q);
+    my ( $question_class, $args ) = split( /=/, $q );
 
     # preprend Perl::Analysis::Static::Question
-    $question_class='Perl::Analysis::Static::Question::' . $question_class;
+    $question_class = 'Perl::Analysis::Static::Question::' . $question_class;
 
     # load the question's module
     use_module($question_class);
@@ -248,8 +285,15 @@ sub _ask_question {
     # create instance and set its arguments
     my $question = $question_class->new();
     $question->set_arguments($args);
-
-    return $question->ask( $self->_files() );
+    
+    my $answer;
+    for my $file ( @{ $self->{files} } ) {
+        my $a = $question->ask($file);
+        # only populate hash if we actually found something
+        $answer->{$file} = $a if $a;
+        $self->_increment_progress_bar($file);
+    }
+    return $self->_print_answer($answer);
 }
 
 =head2 _print_answer ($answer)
@@ -329,6 +373,7 @@ sub _list_questions {
 }
 
 # stolen from App::Ack's get_version_statement
+
 =head2 show_version
 
 Returns the version information for perlanalyst.
@@ -338,9 +383,8 @@ Returns the version information for perlanalyst.
 sub show_version {
     require Config;
 
-    my $copyright = $COPYRIGHT;
     my $this_perl = $Config::Config{perlpath};
-    if ($^O ne 'VMS') {
+    if ( $^O ne 'VMS' ) {
         my $ext = $Config::Config{_exe};
         $this_perl .= $ext unless $this_perl =~ m/$ext$/i;
     }
@@ -350,7 +394,7 @@ sub show_version {
 perlanalyst $VERSION
 Running under Perl $ver at $this_perl
 
-$copyright
+$COPYRIGHT
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of the Artistic License v2.0.

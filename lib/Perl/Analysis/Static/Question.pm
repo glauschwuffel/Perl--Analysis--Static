@@ -23,31 +23,30 @@ has 'class'     => ( is => 'rw', isa => 'Str' );
 has 'filter'    => ( is => 'rw', isa => 'ArrayRef[Str]' );
 has 'arguments' => ( is => 'rw', isa => 'ArrayRef[Str]' );
 
-=head2 ask ($files)
+=head2 ask ($file)
 
-Asks the question for a list of files.
+Asks the question for a file.
 
-Arguments: reference to list of files.
-
-Result: Reference to hash with the answers keyed by the filename.
+Result: The answer.
 
 =cut
 
 sub ask {
-	my ( $self, $files ) = @_;
-
-	my $answer;
-
-	for my $filename (@$files) {
-		my $elements = $self->_ask_for_file($filename);
-
-		# don't populate the hash for this file if there's nothing left
-		next unless $elements;
-
-		$answer->{$filename} = $elements;
+	my ( $self, $filename ) = @_;
+	my $document = Perl::Analysis::Static::Document->new( filename => $filename );
+	unless ($document) {
+		App::Perlanalyst::die(
+			"Unable to get document instance for file '$filename'");
 	}
 
-	return $answer;
+	# find all elements of this class
+	my $elements = $document->find( $self->class() );
+
+	# return if we didn't find anything
+	return unless $elements;
+
+	# filter the elements if we have to
+	return $self->_filter($elements) if $self->{filter};
 }
 
 sub set_arguments {
@@ -84,24 +83,6 @@ sub _filter {
 		$elements = $filter->filter($elements);
 	}
 	return $elements;
-}
-
-sub _ask_for_file {
-	my ( $self, $filename ) = @_;
-	my $document = Perl::Analysis::Static::Document->new( filename => $filename );
-	unless ($document) {
-		App::Perlanalyst::die(
-			"Unable to get document instance for file '$filename'");
-	}
-
-	# find all elements of this class
-	my $elements = $document->find( $self->class() );
-
-	# return if we didn't find anything
-	return unless $elements;
-
-	# filter the elements if we have to
-	return $self->_filter($elements) if $self->{filter};
 }
 
 =head1 AUTHOR
