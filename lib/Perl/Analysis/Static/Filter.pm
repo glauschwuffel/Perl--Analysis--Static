@@ -1,8 +1,5 @@
 package Perl::Analysis::Static::Filter;
-
-=head2 NAME
-
-Perl::Analysis::Static::Filter --
+# ABSTRACT: decide if we asked for an element
 
 =head2 DESCRIPTION
 
@@ -45,18 +42,5 @@ sub _set_arguments {
 	my ( $self, $arguments) = @_;
 	die 'implement me';
 }
-
-=head1 AUTHOR
-
-Gregor Goldbach, glauschwuffel@nomaden.org
-
-=head1 COPYRIGHT & LICENSE
-
-Copyright 2011 Gregor Goldbach
-
-This program is free software; you can redistribute it and/or modify it
-under the terms of the Artistic License v2.0.
-
-=cut
 
 1;

@@ -1,12 +1,5 @@
 package Perl::Analysis::Static::Question::Lexical::NameLike;
-
-=head2 NAME
-
-Perl::Analysis::Static::Question --
-
-=head2 DESCRIPTION
-
-=cut
+# ABSTRACT: Does the name of the lexical variable match this regex?
 
 use Moose;
 

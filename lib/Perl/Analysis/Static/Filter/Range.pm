@@ -1,4 +1,5 @@
 package Perl::Analysis::Static::Filter::Range;
+# ABSTRACT: Does the element lie in this range of lines?
 
 use Moose;
 

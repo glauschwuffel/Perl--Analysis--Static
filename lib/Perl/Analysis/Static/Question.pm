@@ -1,13 +1,15 @@
 package Perl::Analysis::Static::Question;
-
-=head2 NAME
-
-Perl::Analysis::Static::Question -- Base class for questions
+# ABSTRACT: ask a question about a Perl document
 
 =head2 DESCRIPTION
 
-A question combines searches for elements and filters.
-This is the base class.
+A human or a machine might want to know something about a Perl
+document, so it asks a question for that document. Such a question
+may be "Where is a lexical variable named 'foo' declared?" or
+"What functions are declared whose name match the regex '^[sS]et'?".
+
+Enter this class. It is the base class for all questions asked about
+a Perl document.
 
 =cut
 
@@ -19,20 +21,60 @@ use Module::Runtime qw(use_module);
 
 use Perl::Analysis::Static::Document;
 
+=attr class
+
+Holds the name of the element that you ask for. It's a string
+that gets L<Perl::Statis::Analysis::Element> appended. 
+
+=cut
+
 has 'class'     => ( is => 'rw', isa => 'Str' );
+
+=attr filter
+
+When a question is asked it gets a list of elements
+(which are subclasses of L<Perl::Statis::Analysis::Element>).
+The list is then filtered by any number of filters (or no
+filter at all.)
+
+The names of the filters are stored in this attribut. It's a
+reference to a list of strings, each one gets
+L<Perl::Statis::Analysis::Filter> appended. 
+
+=cut
+
 has 'filter'    => ( is => 'rw', isa => 'ArrayRef[Str]' );
+
+=attr arguments
+
+Reference to list of arguments for each filter.
+
+=cut
+
 has 'arguments' => ( is => 'rw', isa => 'ArrayRef[Str]' );
 
 =head2 ask ($file)
 
-Asks the question for a file.
+Asks the question for a file. First we try to create
+a L<Perl::Analysis::Static::Document> from the file. We throw
+an expection if we cannot do this. This most likely means that
+the file contains no Perl document, since L<PPI> is unable to
+parse it.
 
-Result: The answer.
+If the parsing was successful, we search for the elements specified
+by the class name in our C<class> attribute.
+
+If we didn't find any elements, we return immediately with undef.
+Hoewever, if we have found something, we run our filters over
+it. We return the result of the filters which might be a reference
+to a list of elements. If we filtered everything and nothing is left,
+we return undef.
 
 =cut
 
 sub ask {
 	my ( $self, $filename ) = @_;
+	
 	my $document = Perl::Analysis::Static::Document->new( filename => $filename );
 	unless ($document) {
 		App::Perlanalyst::die(
@@ -84,18 +126,5 @@ sub _filter {
 	}
 	return $elements;
 }
-
-=head1 AUTHOR
-
-Gregor Goldbach, glauschwuffel@nomaden.org
-
-=head1 COPYRIGHT & LICENSE
-
-Copyright 2011 Gregor Goldbach
-
-This program is free software; you can redistribute it and/or modify it
-under the terms of the Artistic License v2.0.
-
-=cut
 
 1;

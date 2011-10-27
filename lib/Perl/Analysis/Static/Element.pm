@@ -1,4 +1,5 @@
 package Perl::Analysis::Static::Element;
+# ABSTRACT: represents an element of a Perl document
 
 use Moose;
 
@@ -10,18 +11,5 @@ sub stringify {
     
     die 'implement me';
 }
-
-=head1 AUTHOR
-
-Gregor Goldbach, glauschwuffel@nomaden.org
-
-=head1 COPYRIGHT & LICENSE
-
-Copyright 2011 Gregor Goldbach
-
-This program is free software; you can redistribute it and/or modify it
-under the terms of the Artistic License v2.0.
-
-=cut
 
 1;

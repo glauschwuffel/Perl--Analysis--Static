@@ -1,12 +1,5 @@
 package Perl::Analysis::Static::Analysis::Sub;
-
-=head2 NAME
-
-Perl::Analysis::Static::Analysis::Sub -- What subs are defined in a document?
-
-=head2 DESCRIPTION
-
-=cut
+# ABSTRACT: find all subroutine declarations
 
 use Moose;
 use Carp;
@@ -55,19 +48,5 @@ sub _convert {
 		to   => $to
 	);
 }
-
-
-=head1 AUTHOR
-
-Gregor Goldbach, glauschwuffel@nomaden.org
-
-=head1 COPYRIGHT & LICENSE
-
-Copyright 2011 Gregor Goldbach
-
-This program is free software; you can redistribute it and/or modify it
-under the terms of the Artistic License v2.0.
-
-=cut
 
 1;

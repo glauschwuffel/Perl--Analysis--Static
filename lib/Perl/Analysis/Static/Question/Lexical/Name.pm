@@ -1,12 +1,5 @@
 package Perl::Analysis::Static::Question::Lexical::Name;
-
-=head2 NAME
-
-Perl::Analysis::Static::Question::Lexical::Name -- Where's the lexical variable of that name?
-
-=head2 DESCRIPTION
-
-=cut
+# ABSTRACT: Does the name of the lexical variable equal this string?
 
 use Moose;
 

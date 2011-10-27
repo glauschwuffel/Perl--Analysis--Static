@@ -1,8 +1,5 @@
 package Perl::Analysis::Static::Analysis::Lexical;
-
-=head2 NAME
-
-Perl::Analysis::Static::Analysis::Lexical -- What lexicals are defined in a document?
+# ABSTRACT: find all declarations of lexical variables
 
 =head2 DESCRIPTION
 
@@ -77,18 +74,5 @@ sub _convert {
 
 	} @$symbols;
 }
-
-=head1 AUTHOR
-
-Gregor Goldbach, glauschwuffel@nomaden.org
-
-=head1 COPYRIGHT & LICENSE
-
-Copyright 2011 Gregor Goldbach
-
-This program is free software; you can redistribute it and/or modify it
-under the terms of the Artistic License v2.0.
-
-=cut
 
 1;

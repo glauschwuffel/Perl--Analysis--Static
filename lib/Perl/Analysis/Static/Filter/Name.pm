@@ -1,4 +1,5 @@
 package Perl::Analysis::Static::Filter::Name;
+# ABSTRACT: Does the name equal this one?
 
 use Moose;
 
@@ -17,18 +18,5 @@ sub _set_arguments {
 
 	$self->name($arguments->[0]);    
 }
-
-=head1 AUTHOR
-
-Gregor Goldbach, glauschwuffel@nomaden.org
-
-=head1 COPYRIGHT & LICENSE
-
-Copyright 2011 Gregor Goldbach
-
-This program is free software; you can redistribute it and/or modify it
-under the terms of the Artistic License v2.0.
-
-=cut
 
 1;
