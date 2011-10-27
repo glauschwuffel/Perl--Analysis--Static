@@ -10,25 +10,14 @@ BEGIN {
     use_ok('Perl::Analysis::Static::Files');
 }
 
-my $dir='t/';
+my $dir='t/data';
 my @got = sort {$a cmp $b} Perl::Analysis::Static::Files::files($dir);
 
 my @expected = qw(
-t/blocks.t
 t/data/lexicals_and_blocks.pl
 t/data/strings.pl
 t/data/subs.pl
 t/data/uses.pl
-t/document.t
-t/element.t
-t/files.t
-t/filter.t
-t/lexicals.t
-t/question-lexical-name.t
-t/question-sub-name.t
-t/question.t
-t/subs.t
-t/use.t
 );
 
 eq_or_diff( \@got, \@expected );

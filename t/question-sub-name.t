@@ -13,19 +13,17 @@ BEGIN {
 
 my $filename = 't/data/subs.pl';
 
-my $expected = {
-	$filename => [
+my $expected = [
 		Perl::Analysis::Static::Element::Sub->new(
 			name => 'function',
 			from => 1,
 			to   => 3
 		)
-	]
-};
+	];
 
 my $question = Perl::Analysis::Static::Question::Sub::Name->new();
 $question->set_arguments('function');
-my $got = $question->ask( [$filename] );
+my $got = $question->ask( $filename );
 is_deeply( $got, $expected );
 
 # use Data::Dumper;print Dumper($got);

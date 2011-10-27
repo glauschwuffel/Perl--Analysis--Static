@@ -13,19 +13,17 @@ BEGIN {
 
 my $filename = 't/data/lexicals_and_blocks.pl';
 
-my $expected = {
-	$filename => [
+my $expected = [
 		Perl::Analysis::Static::Element::Lexical->new(
 			name => '$a',
 			from => 1,
 			to   => 1
 		)
-	]
-};
+	];
 
 my $question = Perl::Analysis::Static::Question::Lexical::Name->new();
 $question->set_arguments('$a');
-my $got = $question->ask( [$filename] );
+my $got = $question->ask( $filename );
 is_deeply( $got, $expected );
 
 # use Data::Dumper;print Dumper($got);

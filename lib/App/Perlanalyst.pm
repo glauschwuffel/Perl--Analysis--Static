@@ -1,14 +1,13 @@
 package App::Perlanalyst;
-
-=head1 NAME
-
-App::Perlanalyst -- main package for the perlanalyst tool
+# ABSTRACT: main package for the perlanalyst tool
 
 =head1 DESCRIPTION
 
 This package implements the class App::Perlanalyst which acts like
 a driver for everything else.
 
+If you want to see this module in action, read about L<perlanalyst>.
+ 
 =cut
 
 use strict;
@@ -42,7 +41,14 @@ sub new {
     return bless {}, shift;
 }
 
-# TODO: rc-file
+=method process_args (@args)
+
+Processes the arguments with <Getopt::Long>. Results of the parsing
+will be stuffed in the object's attributes. What's not an option is
+stuffed in the C<argv> attribute for later procession.
+
+=cut
+
 sub process_args {
     my ( $self, @args ) = @_;
 
@@ -52,7 +58,6 @@ sub process_args {
         local @ARGV = @args;
         Getopt::Long::Configure(qw(no_ignore_case bundling pass_through));
 
-        # Don't add coderefs to GetOptions
         GetOptions(
             'a|analysis|all=s' => \$self->{analysis},
             'f|filter=s'       => \@{ $self->{filter} },
@@ -397,20 +402,17 @@ Running under Perl $ver at $this_perl
 $COPYRIGHT
 
 This program is free software; you can redistribute it and/or modify it
-under the terms of the Artistic License v2.0.
+under the terms as the Perl 5 programming language system itself.
 END_OF_VERSION
 }
 
-=head1 AUTHOR
+=head1 SEE ALSO
 
-Gregor Goldbach, glauschwuffel@nomaden.org
+=over 4
 
-=head1 COPYRIGHT & LICENSE
+=item L<perlanalyst>
 
-Copyright 2011 Gregor Goldbach
-
-This program is free software; you can redistribute it and/or modify it
-under the terms of the Artistic License v2.0.
+=back
 
 =cut
 
