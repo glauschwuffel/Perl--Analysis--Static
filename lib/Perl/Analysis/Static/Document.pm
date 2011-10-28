@@ -3,6 +3,7 @@ package Perl::Analysis::Static::Document;
 
 use Moose;
 use PPI;
+use PPI::Cache;
 
 use Module::Runtime qw(use_module);
     

@@ -1,3 +1,4 @@
+## no critic
 sub function {
     my $x;
 }

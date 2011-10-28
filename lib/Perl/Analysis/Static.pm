@@ -1,6 +1,9 @@
 package Perl::Analysis::Static;
 # ABSTRACT: analyse your Perl documents (without running them)
 
+use strict;
+use warnings;
+
 our $VERSION=0.002;
 
 =head1 DESCRIPTION

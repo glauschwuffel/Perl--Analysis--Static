@@ -1,0 +1,6 @@
+verbose = [%p] %m at %f line %l, near '%r'\n
+severity = 5
+
+# we use postifx controls
+[-ControlStructures::ProhibitPostfixControls]
+

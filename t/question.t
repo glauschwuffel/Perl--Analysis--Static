@@ -16,8 +16,8 @@ my $filename = 't/data/subs.pl';
 my $expected = [
     Perl::Analysis::Static::Element::Sub->new(
         name => 'function',
-        from => 1,
-        to   => 3
+        from => 2,
+        to   => 4
     )
 ];
 

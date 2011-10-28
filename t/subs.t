@@ -16,8 +16,8 @@ my $filename='t/data/subs.pl';
 my $document = Perl::Analysis::Static::Document->new(filename => $filename);
 
 my $expected = [
-    Perl::Analysis::Static::Element::Sub->new( name => 'function', from => 1, to => 3 ),
-    Perl::Analysis::Static::Element::Sub->new( name => 'method', from => 5, to => 7 ),
+    Perl::Analysis::Static::Element::Sub->new( name => 'function', from => 2, to => 4 ),
+    Perl::Analysis::Static::Element::Sub->new( name => 'method', from => 6, to => 8 ),
 ];
 
 my $analysis=Perl::Analysis::Static::Analysis::Sub->new();

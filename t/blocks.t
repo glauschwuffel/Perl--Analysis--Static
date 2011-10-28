@@ -16,8 +16,8 @@ my $filename='t/data/lexicals_and_blocks.pl';
 my $document = Perl::Analysis::Static::Document->new(filename => $filename);
 
 my $expected = [
-    Perl::Analysis::Static::Element::Block->new( from=>2, to=>5 ),
-    Perl::Analysis::Static::Element::Block->new( from=>9, to=>11 ),
+    Perl::Analysis::Static::Element::Block->new( from=>3, to=>6 ),
+    Perl::Analysis::Static::Element::Block->new( from=>10, to=>12 ),
 ];
 
 my $analysis=Perl::Analysis::Static::Analysis::Block->new();

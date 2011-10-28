@@ -17,14 +17,14 @@ my $filename='t/data/lexicals_and_blocks.pl';
 my $document = Perl::Analysis::Static::Document->new(filename => $filename);
 
 my $expected = [
-    Perl::Analysis::Static::Element::Lexical->new( name => '$a', from => 1, to=> 1 ),
-    Perl::Analysis::Static::Element::Lexical->new( name => '$inner_1_a', from => 3, to=> 3 ),
-    Perl::Analysis::Static::Element::Lexical->new( name => '$inner_1_b', from => 4, to=> 4 ),
-    Perl::Analysis::Static::Element::Lexical->new( name => '$in_between_b', from => 7, to=> 7 ),
-    Perl::Analysis::Static::Element::Lexical->new( name => '$inner_2_a', from => 10, to=> 10 ),
-    Perl::Analysis::Static::Element::Lexical->new( name => '$inner_2_b', from => 10, to=> 10 ),
-    Perl::Analysis::Static::Element::Lexical->new( name => '$after_a', from => 13, to=> 13 ),
-    Perl::Analysis::Static::Element::Lexical->new( name => '$after_b', from => 14, to=> 14 )
+    Perl::Analysis::Static::Element::Lexical->new( name => '$a', from => 2, to=> 2 ),
+    Perl::Analysis::Static::Element::Lexical->new( name => '$inner_1_a', from => 4, to=> 4 ),
+    Perl::Analysis::Static::Element::Lexical->new( name => '$inner_1_b', from => 5, to=> 5 ),
+    Perl::Analysis::Static::Element::Lexical->new( name => '$in_between_b', from => 8, to=> 8 ),
+    Perl::Analysis::Static::Element::Lexical->new( name => '$inner_2_a', from => 11, to=> 11 ),
+    Perl::Analysis::Static::Element::Lexical->new( name => '$inner_2_b', from => 11, to=> 11 ),
+    Perl::Analysis::Static::Element::Lexical->new( name => '$after_a', from => 14, to=> 14 ),
+    Perl::Analysis::Static::Element::Lexical->new( name => '$after_b', from => 15, to=> 15 )
 ];
 
 my $analysis=Perl::Analysis::Static::Analysis::Lexical->new();

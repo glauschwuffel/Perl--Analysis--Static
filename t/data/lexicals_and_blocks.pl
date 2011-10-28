@@ -1,3 +1,4 @@
+## no critic
 my $a;
 {
     my $inner_1_a;

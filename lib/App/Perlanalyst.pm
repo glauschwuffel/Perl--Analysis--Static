@@ -314,6 +314,7 @@ sub _print_answer {
         my $elements = $answer->{$filename};
         $self->_display_elements_for_file( $elements, $filename );
     }
+
     return 1;
 }
 
@@ -333,7 +334,11 @@ sub _list_modules {
     my @modules = sort keys %$modules;
 
     # remove the stem so the name is readable
-    my @result = map { $_ =~ s{$stem}{}; $_ } @modules;
+    my @result;
+    for my $module (@modules) {
+        $module =~ s{$stem}{};
+        push @result, $module;
+    }
 
     # print them with a simple loop
     print "These are the available $name:\n";

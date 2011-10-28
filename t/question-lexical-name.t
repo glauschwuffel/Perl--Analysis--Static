@@ -16,8 +16,8 @@ my $filename = 't/data/lexicals_and_blocks.pl';
 my $expected = [
 		Perl::Analysis::Static::Element::Lexical->new(
 			name => '$a',
-			from => 1,
-			to   => 1
+			from => 2,
+			to   => 2
 		)
 	];
 
