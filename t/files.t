@@ -15,6 +15,7 @@ my @got = sort {$a cmp $b} Perl::Analysis::Static::Files::files($dir);
 
 my @expected = qw(
 t/data/lexicals_and_blocks.pl
+t/data/locals_and_blocks.pl
 t/data/package_variables.pl
 t/data/strings.pl
 t/data/subs.pl
