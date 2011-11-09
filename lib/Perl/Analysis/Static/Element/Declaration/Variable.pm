@@ -3,7 +3,7 @@ package Perl::Analysis::Static::Element::Declaration::Variable;
 
 use Moose;
 
-extends 'Perl::Analysis::Static::Element';
+extends 'Perl::Analysis::Static::Element::Declaration';
 
 has 'name' => ( is => 'rw', isa => 'Str' );
 
