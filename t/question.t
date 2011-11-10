@@ -27,6 +27,10 @@ my $question = Perl::Analysis::Static::Question->new(
     arguments => ['function']
 );
 my $got = $question->ask($filename);
+
+# remove the PPI nodes for the comparison
+delete $_->{ppi_node} for @$got;
+
 is_deeply( $got, $expected );
 
 # use Data::Dumper;print Dumper($got);

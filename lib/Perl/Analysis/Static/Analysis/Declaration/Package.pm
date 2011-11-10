@@ -14,31 +14,32 @@ has '_ppi_class' =>
   ( is => 'rw', isa => 'Str', default => 'PPI::Statement::Package' );
 
 sub _convert {
-	my ( $self, $node ) = @_;
+    my ( $self, $node ) = @_;
 
-	# get significant children
-	my @schildren = $node->schildren();
+    # get significant children
+    my @schildren = $node->schildren();
 
-	# the first child is the keyword
-	unless ( $schildren[0] eq 'package' ) {
+    # the first child is the keyword
+    unless ( $schildren[0] eq 'package' ) {
 
-		# CHECK: log a warning if this isn't the case?
-		return;
-	}
+        # CHECK: log a warning if this isn't the case?
+        return;
+    }
 
-	# the sub's name is the second child
-	my $name = $schildren[1];
+    # the sub's name is the second child
+    my $name = $schildren[1];
 
-	unless ( $name->isa('PPI::Token::Word') ) {
-		die 'PANIC: unexpected class ' . $name->class;
-		return;
-	}
+    unless ( $name->isa('PPI::Token::Word') ) {
+        die 'PANIC: unexpected class ' . $name->class;
+        return;
+    }
 
-	return Perl::Analysis::Static::Element::Declaration::Package->new(
-		name => $name->content,
-		from => $node->location->[0],
-		to   => $node->location->[0]
-	);
+    return Perl::Analysis::Static::Element::Declaration::Package->new(
+        name     => $name->content,
+        from     => $node->location->[0],
+        to       => $node->location->[0],
+        ppi_node => $node
+    );
 }
 
 =head1 DESCRIPTION

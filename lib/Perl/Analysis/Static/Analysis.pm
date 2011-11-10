@@ -1,4 +1,5 @@
 package Perl::Analysis::Static::Analysis;
+
 # ABSTRACT: look for certain elements in a Perl document
 
 =head2 DESCRIPTION
@@ -24,27 +25,26 @@ sub analyse {
     my ( $self, $document ) = @_;
 
     # find all nodes of given PPI class
-    my $nodes = $document->ppi->find( sub { $_[1]->isa($self->_ppi_class) } );
+    my $nodes = $document->ppi->find( sub { $_[1]->isa( $self->_ppi_class ) } );
 
-	# return immediately if there were no nodes of this class
-	return unless $nodes;
-	
+    # return immediately if there were no nodes of this class
+    return unless $nodes;
+
     # convert them
-#    my @findings = map { $self->_convert($_) } @$nodes;
-	my @findings;
-	for my $node (@$nodes) {
-		push @findings, $self->_convert($node);
-	}
+    my @findings;
+    for my $node (@$nodes) {
+         push @findings, $self->_convert($node);
+    }
 
-	# return immediately if we didn't find anything or we get an empty list
-	return unless @findings;
-	
+    # return immediately if we didn't find anything or we get an empty list
+    return unless @findings;
+
     return \@findings;
 }
 
 sub _convert {
     my ( $self, $ppi_node ) = @_;
-    
+
     die 'implement me';
 }
 

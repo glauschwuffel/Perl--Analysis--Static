@@ -28,6 +28,9 @@ my $expected = [
 my $analysis=Perl::Analysis::Static::Analysis::Declaration::Variable->new();
 my $got = $analysis->analyse($document);
 
+# remove the PPI nodes for the comparison
+delete $_->{ppi_node} for @$got;
+
 is_deeply( $got, $expected );
 
 # use Data::Dumper;print Dumper($got);

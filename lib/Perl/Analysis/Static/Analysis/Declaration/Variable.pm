@@ -1,4 +1,5 @@
 package Perl::Analysis::Static::Analysis::Declaration::Variable;
+
 # ABSTRACT: find all declarations of variables
 
 use Moose;
@@ -15,61 +16,64 @@ has '_ppi_class' =>
   ( is => 'rw', isa => 'Str', default => 'PPI::Statement::Variable' );
 
 sub _convert {
-	my ( $self, $node ) = @_;
+    my ( $self, $node ) = @_;
 
-	# get significant children
-	my @schildren = $node->schildren();
+    # get significant children
+    my @schildren = $node->schildren();
 
-	# the first child is the keyword, for lexical
-	# variables this has to be 'my', for package 'our';
-	my $type=_detect_type($schildren[0]);
-	
-	# maybe a warning here?
-	return unless $type;
+    # the first child is the keyword, for lexical
+    # variables this has to be 'my', for package 'our';
+    my $type = _detect_type( $schildren[0] );
 
-	my $class='Perl::Analysis::Static::Element::Declaration::Variable::'.$type;
-	
-	# variable (or list of variables) is the second child
-	my $variables = $schildren[1];
+    # maybe a warning here?
+    return unless $type;
 
-	# "my $foo"?
-	if ( $variables->isa('PPI::Token::Symbol') ) {
-		my $name = $variables->content;
+    my $class =
+      'Perl::Analysis::Static::Element::Declaration::Variable::' . $type;
 
-		return $class->new(
-			name => $name,
-			from => $node->location->[0],
-			to   => $node->location->[0]
-		);
-	}
+    # variable (or list of variables) is the second child
+    my $variables = $schildren[1];
 
-	# no, not "my $foo", so check for "my ($foo, $bar)"
-	# list of variables is found in a PPI::Structure::List
-	@schildren = $node->schildren();
-	my $list = $schildren[1];
-	unless ( $list->isa('PPI::Structure::List') ) {
-		App::Perlanalyst::die('PANIC: Expected PPI::Structure::List');
-	}
+    # "my $foo"?
+    if ( $variables->isa('PPI::Token::Symbol') ) {
+        my $name = $variables->content;
 
-	# variable names are of class PPI::Token::Symbol
-	my $symbols = $list->find('PPI::Token::Symbol');
-	return map {
-		$class->new(
-			name => $_->content,
-			from => $_->location->[0],
-			to   => $_->location->[0]
-		);
+        return $class->new(
+            name     => $name,
+            from     => $node->location->[0],
+            to       => $node->location->[0],
+            ppi_node => $node
+        );
+    }
 
-	} @$symbols;
+    # no, not "my $foo", so check for "my ($foo, $bar)"
+    # list of variables is found in a PPI::Structure::List
+    @schildren = $node->schildren();
+    my $list = $schildren[1];
+    unless ( $list->isa('PPI::Structure::List') ) {
+        App::Perlanalyst::die('PANIC: Expected PPI::Structure::List');
+    }
+
+    # variable names are of class PPI::Token::Symbol
+    my $symbols = $list->find('PPI::Token::Symbol');
+    return map {
+        $class->new(
+            name     => $_->content,
+            from     => $_->location->[0],
+            to       => $_->location->[0],
+            ppi_node => $node
+        );
+
+    } @$symbols;
 }
 
 sub _detect_type {
-	my ($keyword)=@_;
-	return 'Lexical' if $keyword eq 'my';
-	return 'Package' if $keyword eq 'our';
-	return 'Local' if $keyword eq 'local';
+    my ($keyword) = @_;
+    return 'Lexical' if $keyword eq 'my';
+    return 'Package' if $keyword eq 'our';
+    return 'Local'   if $keyword eq 'local';
 
-	return;
+    return;
 }
 
 =head1 DESCRIPTION
