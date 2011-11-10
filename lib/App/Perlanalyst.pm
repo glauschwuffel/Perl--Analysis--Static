@@ -1,10 +1,11 @@
 package App::Perlanalyst;
+
 # ABSTRACT: main package for the perlanalyst tool
 
 =head1 DESCRIPTION
 
-This package implements the class App::Perlanalyst which acts like
-a driver for everything else.
+This package implements the class App::Perlanalyst which acts as
+a driver for the application L<perlanalyst>.
 
 If you want to see this module in action, read about L<perlanalyst>.
  
@@ -52,33 +53,31 @@ stuffed in the C<argv> attribute for later procession.
 sub process_args {
     my ( $self, @args ) = @_;
 
-    {
+    # Getopt::Long processes ARGV
+    local @ARGV = @args;
+    Getopt::Long::Configure(qw(no_ignore_case bundling pass_through));
 
-        # Getopt::Long processes ARGV
-        local @ARGV = @args;
-        Getopt::Long::Configure(qw(no_ignore_case bundling pass_through));
+    GetOptions(
+        'a|analysis|all=s' => \$self->{analysis},
+        'f|filter=s'       => \@{ $self->{filter} },
+        'h|help|?'         => \$self->{show_help},
+        'man'              => sub {
+            require Pod::Usage;
+            Pod::Usage::pod2usage( { -verbose => 2 } );
+            exit;
+        },
+        'q|question=s'           => \$self->{question},
+        'Q|question-arguments=s' => \$self->{question_arguments},
+        'v|verbose!'             => \$self->{verbose},
+        'list-analyses!'         => \$self->{list_analyses},
+        'list-filters!'          => \$self->{list_filters},
+        'list-files!'            => \$self->{list_files},
+        'list-questions!'        => \$self->{list_questions},
+        'version'                => \$self->{show_version}
+    ) or App::Perlanalyst::die('Unable to parse options');
 
-        GetOptions(
-            'a|analysis|all=s' => \$self->{analysis},
-            'f|filter=s'       => \@{ $self->{filter} },
-            'h|help|?'         => \$self->{show_help},
-            'man'              => sub {
-                require Pod::Usage;
-                Pod::Usage::pod2usage( { -verbose => 2 } );
-                exit;
-            },
-            'q|question=s'           => \$self->{question},
-            'Q|question-arguments=s' => \$self->{question_arguments},
-            'v|verbose!'             => \$self->{verbose},
-            'list-analyses!'         => \$self->{list_analyses},
-            'list-filters!'          => \$self->{list_filters},
-            'list-questions!'        => \$self->{list_questions},
-            'version'                => \$self->{show_version}
-        ) or App::Perlanalyst::die('Unable to parse options');
-
-        # Stash the remainder of argv for later
-        $self->{argv} = [@ARGV];
-    }
+    # Stash the remainder of argv for later
+    $self->{argv} = [@ARGV];
 }
 
 sub run {
@@ -88,24 +87,23 @@ sub run {
     return show_version() if $self->{show_version};
     return show_help()    if $self->{show_help};
 
-    # List what we can do?
+    # List what we can do
     return $self->_list_analyses()  if $self->{list_analyses};
     return $self->_list_filters()   if $self->{list_filters};
     return $self->_list_questions() if $self->{list_questions};
+    return $self->_list_files()     if $self->{list_files};
+
+    # There is neither an analysis or a question, so we'll give help
+    return show_help() unless $self->{analysis} or $self->{question};
 
     # No, so we will ask a question. What files do we have?
     $self->{files} = $self->_files();
 
-    # There is neither an analysis or a question ...
-    return show_help() unless $self->{analysis} or $self->{question};
-
-    # Setup or nice progress bar based on the file sizes
+    # Setup or nice progress bar based on the file sizes.
     $self->_setup_progress_bar();
-    
+
     # Just run an analysis if we're told to do so.
-    if ( $self->{analysis} ) {
-        return $self->analyse() if $self->{analysis};
-    }
+    return $self->analyse() if $self->{analysis};
 
     # No analysis wanted, shall we run a question?
     if ( $self->{question} ) {
@@ -143,6 +141,9 @@ sub analyse {
         arguments => \@arguments
     );
 
+    # Ask the question for every file and store the answer.
+    # Increment the progress bar after we got it.
+    # This would be the perfect place to take the time.
     my $answer;
     for my $file ( @{ $self->{files} } ) {
         $answer->{$file} = $question->ask($file);
@@ -183,6 +184,9 @@ Questions:
                         (e.g. --question Sub::Name=foo)
   --list-questions      List all questions that may be called.
 
+Files:
+  --list-files			   List the files that would be examined.
+
 Miscellaneous:
   --help                This help
   --man                 man page
@@ -199,24 +203,24 @@ END_OF_HELP
 
 sub _setup_progress_bar {
     my ($self) = @_;
-    
+
     # we expect the time of an analyses to be a function of the
     # file's size
     my $total_size = sum map { -s } @{ $self->{files} };
     my $params = {
-        name            => 'Files',
-        count           => $total_size
+        name  => 'Files',
+        count => $total_size
     };
 
     $self->{progress_bar} = Term::ProgressBar::Simple->new($params);
 }
 
 sub _increment_progress_bar {
-    my ($self, $file) = @_;
-    $self->{progress_bar}->increment(-s $file);
+    my ( $self, $file ) = @_;
+    $self->{progress_bar}->increment( -s $file );
 }
 
-=head2 _files (	)
+=head2 _files
 
 =cut
 
@@ -237,7 +241,7 @@ sub _files {
 
         # is it a directory?
         if ( -d $arg ) {
-            push @files, Perl::Analysis::Static::Files::files($arg);
+            push @files, @{ Perl::Analysis::Static::Files::files($arg) };
             next;
         }
         App::Perlanalyst::die "'$arg' is neither file nor directory";
@@ -290,10 +294,11 @@ sub _ask_question {
     # create instance and set its arguments
     my $question = $question_class->new();
     $question->set_arguments($args);
-    
+
     my $answer;
     for my $file ( @{ $self->{files} } ) {
         my $a = $question->ask($file);
+
         # only populate hash if we actually found something
         $answer->{$file} = $a if $a;
         $self->_increment_progress_bar($file);
@@ -380,6 +385,12 @@ sub _list_questions {
     my ($self) = @_;
 
     return $self->_list_modules( 'Question', 'questions' );
+}
+
+sub _list_files {
+    my ($self) = @_;
+    my $files = $self->_files;
+    print "$_\n" for @$files;
 }
 
 # stolen from App::Ack's get_version_statement
