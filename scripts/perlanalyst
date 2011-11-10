@@ -23,9 +23,6 @@ exit( $app->run ? 0 : 1 );
 Perlanalyst is a tool to analyse your Perl documents. This is done via
 static analysis, e.g. the code is analysed without running it.
 
-The most simple usage of this tool is to ask a question about the sources
-and the tool tells you the answer.
-
 =head1 USAGE EXAMPLES
 
 Before getting into all the gory details, here are some basic usage
@@ -44,11 +41,16 @@ examples to help get you started.
   # the same, but look in another directory
   perlananalyst -q Sub::Name=foo ~/perl5/lib/perl5/Test
   
+  # see a list of the files that would be examined
+  perlanalyst --list-files
   
 =head1 FILE SELECTION
 
 The Perlanalyst examines only files that end in C<.pl>, C<.pm> or C<.t> except
 if you specify the file names directly on the command line.
+
+It can also list files that would be analysed, without actually searching
+them.
 
 =head1 DIRECTORY SELECTION
 
@@ -81,6 +83,11 @@ List available analyses.
 =item B<--list-filters>
 
 List available filters.
+
+=item B<--list-files>
+
+List files that would be examined. Does nothing else an exits
+afterwards.
 
 =item B<--list-questions>
 
@@ -159,4 +166,3 @@ L<Perl::Critic> is a different kind of tool. It has the knowledge of experienced
 perl programmers built in and tells you if your code smells.
 
 =cut
-

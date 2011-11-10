@@ -106,15 +106,38 @@ sub run {
     return $self->analyse() if $self->{analysis};
 
     # No analysis wanted, shall we run a question?
-    if ( $self->{question} ) {
-        return $self->_ask_question();
-    }
+    return $self->_ask_question() if $self->{question};
+    
+    # We should never get here. If we do, the logic above is strange
+    # and we have a bug.
+    _bug('Strange logic in run()');
 }
 
-# stolen from App::Ack
+=head2 die ($message)
+
+Exits the program with the given message and a proper error
+code for the shell.
+
+=cut
+
+# taken from App::Ack
 sub die {
     my $program = File::Basename::basename($0);
     return CORE::die( $program, ': ', @_, "\n" );
+}
+
+=head2 _bug ($message)
+
+This is an internal function that exits the program with
+the given message and adds a phrase asking the user to report
+this bug.
+
+=cut
+
+sub _bug {
+    my ($message)=@_;
+    $message.='. This is a bug. Please report it so we can fix it.';
+    &die($message); # The ampersand calls the die() in this package.
 }
 
 sub analyse {
@@ -254,7 +277,7 @@ sub _files {
 =cut
 
 sub _display_filename {
-    my ( $self, $filename ) = @_;
+    my ( $filename ) = @_;
 
     # remove cwd from the file to make it shorter and readable
     my $cwd = getcwd();
@@ -268,7 +291,11 @@ sub _display_filename {
 
 sub _display_elements_for_file {
     my ( $self, $elements, $filename ) = @_;
-    print $self->_display_filename($filename) . ':' . "\n";
+    
+    # Don't display the filename if there are no elements.
+    return unless $elements;
+    
+    print _display_filename($filename) . ':' . "\n";
 
     for my $element (@$elements) {
         print $element->stringify() . "\n";
@@ -361,7 +388,6 @@ sub _list_modules {
 
 sub _list_filters {
     my ($self) = @_;
-
     return $self->_list_modules( 'Filter', 'filters' );
 }
 
@@ -372,7 +398,6 @@ sub _list_filters {
 
 sub _list_analyses {
     my ($self) = @_;
-
     return $self->_list_modules( 'Analysis', 'analyses' );
 }
 
@@ -383,14 +408,15 @@ sub _list_analyses {
 
 sub _list_questions {
     my ($self) = @_;
-
     return $self->_list_modules( 'Question', 'questions' );
 }
 
 sub _list_files {
     my ($self) = @_;
     my $files = $self->_files;
-    print "$_\n" for @$files;
+    my @display_names=map {_display_filename($_)} @$files;
+    
+    print "$_\n" for @display_names;
 }
 
 # stolen from App::Ack's get_version_statement
@@ -426,7 +452,19 @@ END_OF_VERSION
 
 =over 4
 
-=item L<perlanalyst>
+=item L<perlanalyst> to see this module in action
+
+=item L<Getopt::Long> for parsing command line arguments
+
+=item L<IO::Interactive> to examine if your program runs interactively
+
+=item L<Module::List> to list installed modules
+
+=item L<Module::Runtime> to load modules at runtime
+
+=item L<Term::ANSIColor> for bringing colour to your terminal
+
+=item L<Term::ProgressBar::Simple> for drawing progress bars
 
 =back
 

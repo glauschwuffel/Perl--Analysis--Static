@@ -11,7 +11,7 @@ BEGIN {
 }
 
 my $dir='t/data';
-my @got = sort {$a cmp $b} Perl::Analysis::Static::Files::files($dir);
+my @got = sort {$a cmp $b} @{Perl::Analysis::Static::Files::files($dir)};
 
 my @expected = qw(
 t/data/lexicals_and_blocks.pl
