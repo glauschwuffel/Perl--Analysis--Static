@@ -19,7 +19,6 @@ use English qw( -no_match_vars );    # Avoids regex performance penalty
 use Getopt::Long;
 use IO::Interactive qw(is_interactive);
 use List::Util qw(sum);
-use Module::List qw(list_modules);
 use Module::Runtime qw(use_module);
 use Term::ANSIColor qw(colored);
 use Term::ProgressBar::Simple;
@@ -27,6 +26,7 @@ use Term::ProgressBar::Simple;
 use Perl::Analysis::Static::Question;
 use Perl::Analysis::Static::Document;
 use Perl::Analysis::Static::Files;
+use Perl::Analysis::Static::Questioner;
 
 our $VERSION   = '0.002';
 our $COPYRIGHT = 'Copyright 2011 Gregor Goldbach.';
@@ -74,7 +74,8 @@ sub process_args {
         'list-files!'            => \$self->{list_files},
         'list-questions!'        => \$self->{list_questions},
         'version'                => \$self->{show_version}
-    ) or App::Perlanalyst::die('Unable to parse options');
+        )
+        or App::Perlanalyst::die('Unable to parse options');
 
     # Stash the remainder of argv for later
     $self->{argv} = [@ARGV];
@@ -107,7 +108,7 @@ sub run {
 
     # No analysis wanted, shall we run a question?
     return $self->_ask_question() if $self->{question};
-    
+
     # We should never get here. If we do, the logic above is strange
     # and we have a bug.
     _bug('Strange logic in run()');
@@ -135,9 +136,9 @@ this bug.
 =cut
 
 sub _bug {
-    my ($message)=@_;
-    $message.='. This is a bug. Please report it so we can fix it.';
-    &die($message); # The ampersand calls the die() in this package.
+    my ($message) = @_;
+    $message .= '. This is a bug. Please report it so we can fix it.';
+    &die($message);    # The ampersand calls the die() in this package.
 }
 
 sub analyse {
@@ -151,6 +152,7 @@ sub analyse {
     my @filters;
     my @arguments;
     for my $filter ( @{ $self->{filter} } ) {
+
         # split filter and arguments
         my ( $f, $args ) = split( /=/, $filter );
 
@@ -164,16 +166,7 @@ sub analyse {
         arguments => \@arguments
     );
 
-    # Ask the question for every file and store the answer.
-    # Increment the progress bar after we got it.
-    # This would be the perfect place to take the time.
-    my $answer;
-    for my $file ( @{ $self->{files} } ) {
-        $answer->{$file} = $question->ask($file);
-        $self->_increment_progress_bar($file);
-    }
-
-    return $self->_print_answer($answer);
+    return $self->_ask_and_print($question);
 }
 
 =head2 show_help()
@@ -229,7 +222,7 @@ sub _setup_progress_bar {
 
     # we expect the time of an analyses to be a function of the
     # file's size
-    my $total_size = sum map { -s } @{ $self->{files} };
+    my $total_size = sum map {-s} @{ $self->{files} };
     my $params = {
         name  => 'Files',
         count => $total_size
@@ -277,7 +270,7 @@ sub _files {
 =cut
 
 sub _display_filename {
-    my ( $filename ) = @_;
+    my ($filename) = @_;
 
     # remove cwd from the file to make it shorter and readable
     my $cwd = getcwd();
@@ -291,10 +284,10 @@ sub _display_filename {
 
 sub _display_elements_for_file {
     my ( $self, $elements, $filename ) = @_;
-    
+
     # Don't display the filename if there are no elements.
     return unless $elements;
-    
+
     print _display_filename($filename) . ':' . "\n";
 
     for my $element (@$elements) {
@@ -322,29 +315,35 @@ sub _ask_question {
     my $question = $question_class->new();
     $question->set_arguments($args);
 
-    my $answer;
-    for my $file ( @{ $self->{files} } ) {
-        my $a = $question->ask($file);
-
-        # only populate hash if we actually found something
-        $answer->{$file} = $a if $a;
-        $self->_increment_progress_bar($file);
-    }
-    return $self->_print_answer($answer);
+    return $self->_ask_and_print($question);
 }
 
-=head2 _print_answer ($answer)
+
+sub _ask_and_print {
+    my ($self, $question)=@_;
+
+    # Ask the question for every file and store the answer.
+    # Increment the progress bar after we got it.
+    # This would be the perfect place to take the time.
+    my $questioner = Perl::Analysis::Static::Questioner->new();
+
+    my $collector =
+        $questioner->ask_for_files( $question, $self->{files},
+        sub { $self->_increment_progress_bar(shift) } );
+
+    return $self->_print_answer($collector);
+}
+
+=head2 _print_answer ($collector)
 
 =cut
 
 sub _print_answer {
-    my ( $self, $answer ) = @_;
+    my ( $self, $collector ) = @_;
 
-    return 1 unless $answer;
-
-    for my $filename ( sort keys %$answer ) {
-        my $elements = $answer->{$filename};
-        $self->_display_elements_for_file( $elements, $filename );
+    for my $filename ( sort $collector->filenames ) {
+        my $answer = $collector->get_answer($filename);
+        $self->_display_elements_for_file( $answer->elements, $filename );
     }
 
     return 1;
@@ -358,19 +357,12 @@ sub _print_answer {
 sub _list_modules {
     my ( $self, $kind, $name ) = @_;
 
-    # build the module stem for that kind of modules
-    my $stem = 'Perl::Analysis::Static::' . $kind . '::';
-    my $modules = list_modules( $stem, { list_modules => 1, recurse => 1 } );
+    use_module('Perl::Analysis::Static::ModuleLister');
+    my $lister=Perl::Analysis::Static::ModuleLister->new(kind=>$kind);
+    $modules=$lister->list();
 
     # the keys are the names, sort them for convenience
-    my @modules = sort keys %$modules;
-
-    # remove the stem so the name is readable
-    my @result;
-    for my $module (@modules) {
-        $module =~ s{$stem}{};
-        push @result, $module;
-    }
+    my @result = sort @result;
 
     # print them with a simple loop
     print "These are the available $name:\n";
@@ -414,8 +406,8 @@ sub _list_questions {
 sub _list_files {
     my ($self) = @_;
     my $files = $self->_files;
-    my @display_names=map {_display_filename($_)} @$files;
-    
+    my @display_names = map { _display_filename($_) } @$files;
+
     print "$_\n" for @display_names;
 }
 

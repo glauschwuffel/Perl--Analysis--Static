@@ -9,6 +9,7 @@ use Test::Deep;
 BEGIN {
 	use_ok('Perl::Analysis::Static::Element::Sub');
 	use_ok('Perl::Analysis::Static::Question::Sub::Name');
+    use_ok('Perl::Analysis::Static::Questioner');
 }
 
 my $filename = 't/data/subs.pl';
@@ -23,9 +24,12 @@ my $expected = [
 
 my $question = Perl::Analysis::Static::Question::Sub::Name->new();
 $question->set_arguments('function');
-my $got = $question->ask( $filename );
+my $questioner = Perl::Analysis::Static::Questioner->new();
+my $answer=$questioner->ask_for_file($question, $filename);
+isa_ok($answer, 'Perl::Analysis::Static::Answer') or BAIL_OUT;
 
 # remove the PPI nodes for the comparison
+my $got=$answer->elements();
 delete $_->{ppi_node} for @$got;
 
 is_deeply( $got, $expected );
