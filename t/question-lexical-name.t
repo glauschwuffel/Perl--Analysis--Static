@@ -7,7 +7,7 @@ use Test::More 'no_plan';
 use Test::Deep;
 
 BEGIN {
-	use_ok('Perl::Analysis::Static::Element::Lexical');
+	use_ok('Perl::Analysis::Static::Element::Declaration::Variable::Lexical');
 	use_ok('Perl::Analysis::Static::Question::Lexical::Name');
     use_ok('Perl::Analysis::Static::Questioner');
 }
@@ -15,7 +15,7 @@ BEGIN {
 my $filename = 't/data/lexicals_and_blocks.pl';
 
 my $expected = [
-		Perl::Analysis::Static::Element::Lexical->new(
+		Perl::Analysis::Static::Element::Declaration::Variable::Lexical->new(
 			name => '$a',
 			from => 2,
 			to   => 2
