@@ -359,10 +359,10 @@ sub _list_modules {
 
     use_module('Perl::Analysis::Static::ModuleLister');
     my $lister=Perl::Analysis::Static::ModuleLister->new(kind=>$kind);
-    $modules=$lister->list();
+    my $modules=$lister->list();
 
     # the keys are the names, sort them for convenience
-    my @result = sort @result;
+    my @result = sort @$modules;
 
     # print them with a simple loop
     print "These are the available $name:\n";
