@@ -1,22 +1,21 @@
-perlanalyst – analyse your Perl documents (without running them)
+This is the home of the Perl package Perl::Analysis::Static. Welcome!
 
-Perlanalyst is a tool to analyse your Perl documents. This is done via
-static analysis, e.g. the code is analysed without running it.
+The repository contains Perl modules and tools for static analysis of
+Perl documents (which are roughly speaking all perl sources you would write
+and not all perl sources that are possible).
 
-The most simple usage of this tool is to ask a question about the sources
-and the tool tells you the answer.
+The project is young and in alpha stage. Currently you need Dist::Zilla
+to play with it. To start hacking, install that module:
 
-Here are some basic usage examples to help get you started.
-
-  # find all subroutine declarations, recursively process all Perl
-  # files beneath directory
-  perlanalyst --all Sub
+  cpanm Dist::Zilla
   
-  # the same, but show only the declaration of the subroutine "foo"
-  perlanalyst --all Sub --filter Name --filter-argument foo
+Then pull sources from this repository and install the plugins needed for
+building the package:
 
-  # the same, but asked as a question
-  perlanalyst --question Sub::Name --question-argument foo
+  dzil authordeps | cpanm
   
-  # the same, but look in another directory
-  perlanalyst -q Sub::Name -Q foo ~/perl5/lib/perl5/Test
+Then you may build the Perl package Perl::Analysis::Static via
+
+  dzil build
+
+Have fun!
