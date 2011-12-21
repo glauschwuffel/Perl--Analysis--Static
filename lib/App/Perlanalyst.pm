@@ -28,7 +28,6 @@ use Perl::Analysis::Static::Document;
 use Perl::Analysis::Static::Files;
 use Perl::Analysis::Static::Questioner;
 
-our $VERSION   = '0.002';
 our $COPYRIGHT = 'Copyright 2011 Gregor Goldbach.';
 
 =head2 new
@@ -208,7 +207,7 @@ Miscellaneous:
   --man                 man page
   --version             Display version & copyright
 
-This is version $VERSION of the perlanalyst.
+This is version $App::Perlanalyst::VERSION of the perlanalyst.
 END_OF_HELP
     return;
 }
@@ -430,7 +429,7 @@ sub show_version {
     my $ver = sprintf( '%vd', $^V );
 
     print <<"END_OF_VERSION";
-perlanalyst $VERSION
+perlanalyst $App::Perlanalyst::VERSION
 Running under Perl $ver at $this_perl
 
 $COPYRIGHT
