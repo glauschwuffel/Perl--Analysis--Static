@@ -4,8 +4,6 @@ package Perl::Analysis::Static;
 use strict;
 use warnings;
 
-our $VERSION=0.002;
-
 =head1 DESCRIPTION
 
 Perl::Analysis::Static extracts information from your Perl
@@ -36,6 +34,23 @@ Here are some basic examples to help get you started.
   
   # the same, but look in another directory
   perlanalyst -q Sub::Name=foo ~/perl5/lib/perl5/Test
+
+  # list questions you may ask
+  perlanalyst --list-questions
+  
+  # list analyses
+  perlanalyst --list-analyses
+  
+  # list filters
+  perlanalyst --list-filters
+
+  # see a list of the files that would be examined
+  perlanalyst --list-files
+
+=head1 INSTALLATION
+
+Please refer to the file INSTALL for documentation of the
+installation process.
 
 =head1 WARNING
 
