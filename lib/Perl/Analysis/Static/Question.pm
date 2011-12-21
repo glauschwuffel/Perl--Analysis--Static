@@ -1,10 +1,10 @@
 package Perl::Analysis::Static::Question;
 # ABSTRACT: represents a question about a Perl document
 
-=head2 DESCRIPTION
+=head1 DESCRIPTION
 
 A human or a machine might want to know something about a Perl
-document, so it asks a question for that document. Such a question
+document, so a question is asked about that document. Such a question
 may be "Where is a lexical variable named 'foo' declared?" or
 "What functions are declared whose name match the regex '^[sS]et'?".
 
