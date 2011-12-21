@@ -16,7 +16,7 @@ sub _filter {
 sub _set_arguments {
     my ($self, $arguments) = @_;
 
-	$self->string($arguments->[0]);    
+    $self->string($arguments->[0]);    
 }
 
 1;

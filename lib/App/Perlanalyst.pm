@@ -200,7 +200,7 @@ Questions:
   --list-questions      List all questions that may be called.
 
 Files:
-  --list-files			   List the files that would be examined.
+  --list-files	          List the files that would be examined.
 
 Miscellaneous:
   --help                This help
@@ -212,7 +212,7 @@ END_OF_HELP
     return;
 }
 
-=head2 _setup_progress_bar (	)
+=head2 _setup_progress_bar ()
 
 =cut
 

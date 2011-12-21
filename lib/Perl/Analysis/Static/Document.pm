@@ -54,10 +54,10 @@ sub _build_ppi {
     # content ought to be passed as reference
 #    my $ppi = PPI::Document->new( \$self->source()->content() );
     my $ppi = PPI::Document->new( $self->filename );
-	unless ($ppi) {
-		die "Unable to create instance of '".$self->filename."'";
-	}
-
+    unless ($ppi) {
+        die "Unable to create instance of '".$self->filename."'";
+    }
+    
     # we have to set the tab width and call index_locations or we won't get
     # correct information about the location (or maybe no location information
     # at all). I don't know if this is always the case or just a matter of

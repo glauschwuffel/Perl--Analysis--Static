@@ -56,8 +56,8 @@ Reference to list of arguments for each filter.
 has 'arguments' => ( is => 'rw', isa => 'ArrayRef[Str]' );
 
 sub set_arguments {
-	my ($self) = @_;
-	die 'implement me';
+    my ($self) = @_;
+    die 'implement me';
 }
 
 1;
